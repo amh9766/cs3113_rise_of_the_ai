@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA09E92C2D98DB9100CA189B /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA09E92B2D98DB9100CA189B /* Map.cpp */; };
 		CA445B2C2D7B914100F3B966 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA445B2B2D7B914100F3B966 /* Cocoa.framework */; };
 		CA445B2E2D7B914500F3B966 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA445B2D2D7B914500F3B966 /* OpenGL.framework */; };
 		CA445B302D7B914F00F3B966 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA445B2F2D7B914F00F3B966 /* SDL2.framework */; };
@@ -41,6 +42,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CA09E9292D98DB9100CA189B /* platformer_lib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platformer_lib.h; sourceTree = "<group>"; };
+		CA09E92A2D98DB9100CA189B /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
+		CA09E92B2D98DB9100CA189B /* Map.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Map.cpp; sourceTree = "<group>"; };
 		CA445B202D7B8E7700F3B966 /* rise_of_the_ai */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rise_of_the_ai; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA445B2B2D7B914100F3B966 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CA445B2D2D7B914500F3B966 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -108,6 +112,9 @@
 		CA445B222D7B8E7700F3B966 /* rise_of_the_ai */ = {
 			isa = PBXGroup;
 			children = (
+				CA09E92B2D98DB9100CA189B /* Map.cpp */,
+				CA09E92A2D98DB9100CA189B /* Map.h */,
+				CA09E9292D98DB9100CA189B /* platformer_lib.h */,
 				CA445B592D89457900F3B966 /* helper.h */,
 				CA445B562D87915800F3B966 /* PlatformEntity.cpp */,
 				CA445B572D87915800F3B966 /* PlatformEntity.h */,
@@ -210,6 +217,7 @@
 				CA445B4F2D83690900F3B966 /* PlayerEntity.cpp in Sources */,
 				CA445B402D7B947300F3B966 /* main.cpp in Sources */,
 				CA445B4A2D80E8BD00F3B966 /* AnimatedEntity.cpp in Sources */,
+				CA09E92C2D98DB9100CA189B /* Map.cpp in Sources */,
 				CA445B412D7B947300F3B966 /* ShaderProgram.cpp in Sources */,
 				CA445B422D7B947300F3B966 /* helper.cpp in Sources */,
 				CA445B552D873F4500F3B966 /* Background.cpp in Sources */,

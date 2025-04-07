@@ -26,6 +26,7 @@
 #include "AnimationInfo.h"
 #include "AnimatedEntity.h"
 #include "PlayerEntity.h"
+#include "Map.h"
 #include "PlatformEntity.h"
 #include "Background.h"
 #include "UILabel.h"
@@ -66,7 +67,8 @@ constexpr char  PLAYER_FILEPATH[]       = "content/player.png",
                 ALPHANUM_FILEPATH[]     = "content/alphanum.png",
                 BACKGROUND_FILEPATH[]   = "content/background.png",
                 MISSION_WON_FILEPATH[]  = "content/mission_won.png",
-                MISSION_LOSS_FILEPATH[] = "content/mission_loss.png";
+                MISSION_LOSS_FILEPATH[] = "content/mission_loss.png",
+                TILESET_FILEPATH[] = "content/tileset.png";
 
 constexpr char BGM_FILEPATH[] = "content/music/wood_man.mp3";
 constexpr int    LOOP_FOREVER = -1;
@@ -81,13 +83,10 @@ enum AppStatus { RUNNING, TERMINATED };
 struct GameState
 {
     PlayerEntity* player;
-    UILabel* fuel_label;
+    Map* map;
 
-    Background* background;
     Background* mission_won;
     Background* mission_loss;
-
-    std::vector<PlatformEntity> platforms;
 };
 
 // ————— VARIABLES ————— //
@@ -157,12 +156,6 @@ void initialise()
     glClearColor(BG_RED, BG_BLUE, BG_GREEN, BG_OPACITY);
 
     // ————— BACKGROUND ————— //
-    g_game_state.background = new Background(
-        INTERNAL_HEIGHT,
-        INTERNAL_WIDTH,
-        load_texture(BACKGROUND_FILEPATH)
-    );
-
     g_game_state.mission_won = new Background(
         INTERNAL_HEIGHT,
         INTERNAL_WIDTH,
@@ -181,6 +174,20 @@ void initialise()
 
     Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 
+    // ————— MAP ————— //
+    g_game_state.map = new Map(
+        3,
+        5,
+        load_texture(TILESET_FILEPATH),
+        {
+            { 1, -0.5f }, { 1, -0.5f }, { 1, -0.5f },
+            { 1, -0.5f }, { 1, -0.5f }, { 1, -0.5f },
+            { 1, -0.5f }, { 1, -0.5f }, { 1, -0.5f },
+            { 1, -0.5f }, { 1, -0.5f }, { 1, -0.5f },
+            { 16, 0.5f }, { 17, 0.5f }, { 16, 0.5f }
+        }
+    );
+
     // ————— PLAYER ————— //
     g_game_state.player = new PlayerEntity(
         24.0f,
@@ -194,48 +201,14 @@ void initialise()
         },
         8
     );
-    
+
     // ————— PLATFORMS ————— //
-    GLuint platform_tex_id = load_texture(PLATFORM_FILEPATH);
-    g_game_state.platforms.emplace_back(
-        glm::vec3(204.0f, 45.0f, 0.0f),
-        64.0f,
-        32.0f,
-        10.0f,
-        8.0f,
-        platform_tex_id
-    );
-    g_game_state.platforms.emplace_back(
-        glm::vec3(92.0f, 194.0f, 0.0f),
-        64.0f,
-        32.0f,
-        10.0f,
-        8.0f,
-        platform_tex_id
-    );
-    g_game_state.platforms.emplace_back(
-        glm::vec3(342.0f, 245.0f, 0.0f),
-        64.0f,
-        32.0f,
-        10.0f,
-        8.0f,
-        platform_tex_id
-    );
-
-    g_game_state.platforms[2].set_dynamic();
-
+    
     // ————— UI ————— //
-    GLuint alphanum_tex_id = load_texture(ALPHANUM_FILEPATH);
-    g_game_state.fuel_label = new UILabel(
-        glm::vec3(0.0f),
-        glm::vec3(12.0f, 14.0f, 0.0f),
-        alphanum_tex_id,
-        "FUEL",
-        4
-    );
-
+    
     // ————— GENERAL ————— //
     glEnable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
@@ -308,12 +281,9 @@ void update()
         {
             g_won  = g_game_state.player->get_collide_bottom();
             g_lost = g_game_state.player->is_out_of_bounds();
-
-            for (int i = 0; i < g_game_state.platforms.size(); i++)
-                g_game_state.platforms[i].update(delta_time);
-
-            g_game_state.player->update(FIXED_TIMESTEP, g_game_state.platforms);
-            g_game_state.fuel_label->update(g_game_state.player->get_fuel());
+            
+            std::vector<PlatformEntity> platforms;
+            g_game_state.player->update(delta_time, platforms);
 
             if (g_won || g_lost) break;
 
@@ -327,22 +297,18 @@ void update()
 void render()
 {
     // ————— GENERAL ————— //
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glEnableVertexAttribArray(g_shader_program.get_position_attribute());
     glEnableVertexAttribArray(g_shader_program.get_tex_coordinate_attribute());
 
-    g_game_state.background->render(&g_shader_program);
+    // ————— MAP ————— //
+    g_game_state.map->render(&g_shader_program);
 
     // ————— PLAYER ————— //
     g_game_state.player->render(&g_shader_program);
 
-    for (int i = 0; i < g_game_state.platforms.size(); i++)
-        g_game_state.platforms[i].render(&g_shader_program);
-
     // ————— PLATFORM ————— //
-    g_game_state.fuel_label->render(&g_shader_program);
-
     if      (g_won)  g_game_state.mission_won->render(&g_shader_program);
     else if (g_lost) g_game_state.mission_loss->render(&g_shader_program);
 
@@ -356,12 +322,13 @@ void render()
 void shutdown() 
 {
     delete g_game_state.player;
-    delete g_game_state.fuel_label;
 
-    delete g_game_state.background;
     delete g_game_state.mission_won;
     delete g_game_state.mission_loss;
+    
+    delete g_game_state.map;
 
+    Mix_FreeMusic(g_music);
     SDL_Quit();
 }
 
