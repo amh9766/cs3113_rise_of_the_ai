@@ -7,7 +7,7 @@
 class ScreenScene : public Scene
 {
     public:
-       ScreenScene();
+       ScreenScene(int next_scene_index);
        ~ScreenScene();
 
        void initialise() override;

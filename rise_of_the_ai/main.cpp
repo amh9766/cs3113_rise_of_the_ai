@@ -20,15 +20,19 @@
 #include <vector>
 #include <ctime>
 
+#include "cmath"
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
 #include "Scene.h"
-#include "LevelScene.h"
-#include "ScreenScene.h"
-#include "helper.h"
+
+// Game-specific
+#include "StartScreen.h"
+#include "GameOverScreen.h"
+#include "LevelA.h"
 #include "platformer_lib.h"
-#include "cmath"
+
+#include "helper.h"
 
 // ————— CONSTANTS ————— //
 constexpr int CD_QUAL_FREQ    = 44100,  // compact disk (CD) quality frequency
@@ -130,8 +134,9 @@ void initialise()
 
     GLuint tileset_texture_id = load_texture(TILESET_FILEPATH);
 
-    g_scenes.push_back(new ScreenScene());
-    g_scenes.push_back(new LevelScene(g_player, tileset_texture_id));
+    g_scenes.push_back(new StartScreen(2));
+    g_scenes.push_back(new GameOverScreen(0));
+    g_scenes.push_back(new LevelA(2, g_player, tileset_texture_id));
 
     g_scene_index = 0;
     g_scenes[g_scene_index]->initialise();

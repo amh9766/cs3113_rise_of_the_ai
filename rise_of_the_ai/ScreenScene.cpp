@@ -16,13 +16,9 @@
 #include "platformer_lib.h"
 #include "helper.h"
 
-ScreenScene::ScreenScene()
+ScreenScene::ScreenScene(int next_scene_index)
+    : Scene(next_scene_index)
 {
-    m_game_state.background = new Background(
-        INTERNAL_HEIGHT,
-        INTERNAL_WIDTH,
-        load_texture(START_FILEPATH)
-    );
 }
 
 ScreenScene::~ScreenScene()
@@ -33,9 +29,6 @@ ScreenScene::~ScreenScene()
 
 void ScreenScene::initialise()
 {
-    // ————— GAME STATE ————— //
-    m_game_state.scene_index = 0;
-
     // ————— RENDERING ————— //
     glClearColor(
         0.f, 
@@ -45,17 +38,13 @@ void ScreenScene::initialise()
     );
 
     m_game_state.view_matrix = IDENTITY_MAT;
-    
-    //m_game_state.bgm = Mix_LoadMUS(BGM_FILEPATH);
-    //Mix_PlayMusic(m_game_state.bgm, -1);
-    //Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 }
 
 void ScreenScene::process_key_down(SDL_Event& event)
 {
     switch (event.key.keysym.sym) {
         case SDLK_RETURN:
-            m_game_state.scene_index = 1;
+            m_game_state.scene_index = m_next_scene_index;
             break;
         default:
             break;

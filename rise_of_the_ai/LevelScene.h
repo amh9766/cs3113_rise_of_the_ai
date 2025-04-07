@@ -8,11 +8,8 @@
 
 class LevelScene : public Scene
 {
-    private:
-        GLuint m_texture_id;
-
     public:
-        LevelScene(PlayerEntity* player, GLuint m_texture_id);
+        LevelScene(int next_scene_index, PlayerEntity* player);
         ~LevelScene();
 
         void initialise() override;

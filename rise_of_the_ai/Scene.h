@@ -7,8 +7,10 @@ class Scene
 {
     protected:
         GameState m_game_state;
+        int m_next_scene_index;
 
     public:
+        Scene(int next_scene_index) : m_next_scene_index(next_scene_index) { }
         virtual ~Scene() { }
 
         virtual void initialise() = 0;

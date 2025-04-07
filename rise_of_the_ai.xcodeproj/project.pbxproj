@@ -26,7 +26,6 @@
 		CA445B4F2D83690900F3B966 /* PlayerEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA445B4E2D83690900F3B966 /* PlayerEntity.cpp */; };
 		CA445B522D85F6E800F3B966 /* UILabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA445B502D85F6E800F3B966 /* UILabel.cpp */; };
 		CA445B552D873F4500F3B966 /* Background.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA445B542D873F4500F3B966 /* Background.cpp */; };
-		CA445B582D87915800F3B966 /* PlatformEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA445B562D87915800F3B966 /* PlatformEntity.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -56,6 +55,9 @@
 		CA09E9332D9C8D9500CA189B /* CollisionBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollisionBox.h; sourceTree = "<group>"; };
 		CA09E9382DA45AF400CA189B /* ScreenScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenScene.cpp; sourceTree = "<group>"; };
 		CA09E9392DA45AF400CA189B /* ScreenScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenScene.h; sourceTree = "<group>"; };
+		CA09E93C2DA46CCA00CA189B /* LevelA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelA.h; sourceTree = "<group>"; };
+		CA09E93E2DA4764000CA189B /* StartScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartScreen.h; sourceTree = "<group>"; };
+		CA09E93F2DA4764000CA189B /* GameOverScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScreen.h; sourceTree = "<group>"; };
 		CA445B202D7B8E7700F3B966 /* rise_of_the_ai */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rise_of_the_ai; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA445B2B2D7B914100F3B966 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CA445B2D2D7B914500F3B966 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -81,8 +83,6 @@
 		CA445B512D85F6E800F3B966 /* UILabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILabel.h; sourceTree = "<group>"; };
 		CA445B532D873F4400F3B966 /* Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Background.h; sourceTree = "<group>"; };
 		CA445B542D873F4500F3B966 /* Background.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Background.cpp; sourceTree = "<group>"; };
-		CA445B562D87915800F3B966 /* PlatformEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlatformEntity.cpp; sourceTree = "<group>"; };
-		CA445B572D87915800F3B966 /* PlatformEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformEntity.h; sourceTree = "<group>"; };
 		CA445B592D89457900F3B966 /* helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helper.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -122,6 +122,9 @@
 		CA445B222D7B8E7700F3B966 /* rise_of_the_ai */ = {
 			isa = PBXGroup;
 			children = (
+				CA09E93C2DA46CCA00CA189B /* LevelA.h */,
+				CA09E93F2DA4764000CA189B /* GameOverScreen.h */,
+				CA09E93E2DA4764000CA189B /* StartScreen.h */,
 				CA09E9382DA45AF400CA189B /* ScreenScene.cpp */,
 				CA09E9392DA45AF400CA189B /* ScreenScene.h */,
 				CA09E9322D9C8D9500CA189B /* CollisionBox.cpp */,
@@ -134,8 +137,6 @@
 				CA09E92A2D98DB9100CA189B /* Map.h */,
 				CA09E9292D98DB9100CA189B /* platformer_lib.h */,
 				CA445B592D89457900F3B966 /* helper.h */,
-				CA445B562D87915800F3B966 /* PlatformEntity.cpp */,
-				CA445B572D87915800F3B966 /* PlatformEntity.h */,
 				CA445B542D873F4500F3B966 /* Background.cpp */,
 				CA445B532D873F4400F3B966 /* Background.h */,
 				CA445B502D85F6E800F3B966 /* UILabel.cpp */,
@@ -231,7 +232,6 @@
 				CA445B522D85F6E800F3B966 /* UILabel.cpp in Sources */,
 				CA09E9312D99DB4C00CA189B /* LevelScene.cpp in Sources */,
 				CA445B432D7B947300F3B966 /* Entity.cpp in Sources */,
-				CA445B582D87915800F3B966 /* PlatformEntity.cpp in Sources */,
 				CA09E93A2DA45AF400CA189B /* ScreenScene.cpp in Sources */,
 				CA445B4F2D83690900F3B966 /* PlayerEntity.cpp in Sources */,
 				CA445B402D7B947300F3B966 /* main.cpp in Sources */,

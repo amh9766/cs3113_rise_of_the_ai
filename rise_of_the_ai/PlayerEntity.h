@@ -61,7 +61,7 @@ class PlayerEntity : public AnimatedEntity
             m_lives--;
         }
 
-        void use_life() { m_lives--; }
+        void reset_lives() { m_lives = LIVES_AMOUNT; }
 
         // ————— PHYSICS ————— //
         void start_neutral() { m_movement = 0.f; }
