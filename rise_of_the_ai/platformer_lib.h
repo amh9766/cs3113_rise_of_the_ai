@@ -1,6 +1,8 @@
 #ifndef PLATFORMER_LIB_H
 #define PLATFORMER_LIB_H
 
+#include "glm/glm.hpp"
+
 // Sources:
 //      Player     - https://www.spriters-resource.com/ds_dsi/kirbysqueaksquad/sheet/2505/
 //      Background - https://www.spriters-resource.com/game_boy_advance/kirbynim/sheet/2976/
@@ -23,5 +25,22 @@ constexpr int TILESET_WIDTH  = 16,
 
 constexpr float TILESET_U = 1.0f / (float) TILESET_WIDTH,
                 TILESET_V = 1.0f / (float) TILESET_HEIGHT;
+
+
+constexpr glm::vec3 SPAWN_POINT = glm::vec3(120.0f, 80.0f, 0.0f);
+
+constexpr float BOUND = 100.0f;
+
+constexpr float INTERNAL_WIDTH  = 480.0f,
+                INTERNAL_HEIGHT = 320.0f;
+
+constexpr float ACCEL_OF_GRAVITY = 2.5f,
+                ACCEL_OF_PROPULSION = 15.0f,
+                DRAG_COEFFICIENT = 0.25f;
+
+constexpr float PLATFORM_SPEED = 20.0f;
+
+constexpr int FUEL_AMOUNT = 2500,
+              FUEL_USAGE = 1;
 
 #endif

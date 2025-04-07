@@ -70,7 +70,6 @@
 		CA445B492D80E8BD00F3B966 /* AnimatedEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedEntity.h; sourceTree = "<group>"; };
 		CA445B4B2D828A3300F3B966 /* AnimationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationInfo.h; sourceTree = "<group>"; };
 		CA445B4C2D83690900F3B966 /* PlayerEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerEntity.h; sourceTree = "<group>"; };
-		CA445B4D2D83690900F3B966 /* lunar_lib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lunar_lib.h; sourceTree = "<group>"; };
 		CA445B4E2D83690900F3B966 /* PlayerEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerEntity.cpp; sourceTree = "<group>"; };
 		CA445B502D85F6E800F3B966 /* UILabel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UILabel.cpp; sourceTree = "<group>"; };
 		CA445B512D85F6E800F3B966 /* UILabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILabel.h; sourceTree = "<group>"; };
@@ -131,7 +130,6 @@
 				CA445B532D873F4400F3B966 /* Background.h */,
 				CA445B502D85F6E800F3B966 /* UILabel.cpp */,
 				CA445B512D85F6E800F3B966 /* UILabel.h */,
-				CA445B4D2D83690900F3B966 /* lunar_lib.h */,
 				CA445B4E2D83690900F3B966 /* PlayerEntity.cpp */,
 				CA445B4C2D83690900F3B966 /* PlayerEntity.h */,
 				CA445B4B2D828A3300F3B966 /* AnimationInfo.h */,

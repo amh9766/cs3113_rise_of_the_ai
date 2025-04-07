@@ -3,7 +3,7 @@
 
 #include "glm/glm.hpp"
 #include "Entity.h"
-#include "lunar_lib.h"
+#include "platformer_lib.h"
 
 class PlatformEntity : public Entity
 {

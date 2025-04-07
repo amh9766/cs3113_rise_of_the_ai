@@ -5,7 +5,7 @@
 #include "ShaderProgram.h"
 #include "AnimatedEntity.h"
 #include "PlatformEntity.h"
-#include "lunar_lib.h"
+#include "platformer_lib.h"
 
 enum PlayerAnim : int
 {

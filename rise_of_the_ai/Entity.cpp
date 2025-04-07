@@ -1,7 +1,7 @@
 /**
 * Author: Amani Hernandez (amh9766)
-* Assignment: Lunar Lander
-* Date due: 2025-3-18, 11:59pm
+* Assignment: Rise of the AI
+* Date due: 2025-04-05, 11:59pm
 * I pledge that I have completed this assignment without
 * collaborating with anyone else, in conformance with the
 * NYU School of Engineering Policies and Procedures on
@@ -22,7 +22,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
 #include "Entity.h"
-#include "lunar_lib.h"
+#include "platformer_lib.h"
 #include "helper.h"
 
 Entity::Entity(glm::vec3 init_pos, glm::vec3 init_scale, 

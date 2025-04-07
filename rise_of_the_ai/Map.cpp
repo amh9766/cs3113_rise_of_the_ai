@@ -1,5 +1,5 @@
 /**
-* Author: Amani Hernandez
+* Author: Amani Hernandez (amh9766)
 * Assignment: Rise of the AI
 * Date due: 2025-04-05, 11:59pm
 * I pledge that I have completed this assignment without

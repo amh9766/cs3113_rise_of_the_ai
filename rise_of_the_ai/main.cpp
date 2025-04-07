@@ -1,7 +1,7 @@
 /**
 * Author: Amani Hernandez (amh9766)
-* Assignment: Lunar Lander
-* Date due: 2025-3-18, 11:59pm
+* Assignment: Rise of the AI
+* Date due: 2025-04-05, 11:59pm
 * I pledge that I have completed this assignment without
 * collaborating with anyone else, in conformance with the
 * NYU School of Engineering Policies and Procedures on
@@ -25,7 +25,7 @@
 #include "Scene.h"
 #include "LevelScene.h"
 #include "helper.h"
-#include "lunar_lib.h"
+#include "platformer_lib.h"
 #include "cmath"
 
 // ————— CONSTANTS ————— //
@@ -90,7 +90,7 @@ void initialise()
         AUDIO_BUFF_SIZE      // audio buffer size in sample FRAMES (total samples divided by channel count)
     );
 
-    g_display_window = SDL_CreateWindow("Lunar Lander",
+    g_display_window = SDL_CreateWindow("Rise of the AI",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         WINDOW_WIDTH, WINDOW_HEIGHT,
         SDL_WINDOW_OPENGL);
