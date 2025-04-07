@@ -4,8 +4,7 @@
 #include "glm/glm.hpp"
 #include "ShaderProgram.h"
 #include "AnimatedEntity.h"
-#include "PlatformEntity.h"
-#include "CollisionBox.h"
+#include "Map.h"
 #include "platformer_lib.h"
 #include "helper.h"
 
@@ -34,37 +33,37 @@ class PlayerEntity : public AnimatedEntity
 
     public:
         // ————— GETTERS ————— //
-        int  const get_lives()          const { return m_lives; }
+        int  const get_lives() const { return m_lives; }
 
         // ————— GENERAL ————— //
-        PlayerEntity(float width, float height, 
-            GLuint tex_id, std::vector<AnimationInfo> anim_frames, int max_frames);
+        PlayerEntity(glm::vec3 spawn_point, GLuint tex_id, std::vector<AnimationInfo> anim_frames, int max_frames);
         ~PlayerEntity();
 
-        void update(float delta_time, const std::vector<CollisionBox*>& map_collisions);
+        void update(float delta_time, Map* map);
 
         // ————— GAMEPLAY ————— //
         void jump();
         void fall();
 
-        void reset()
+        void respawn(glm::vec3 spawn_point)
         {
-            m_position     = SPAWN_POINT;
+            m_position     = spawn_point;
             m_velocity     = ZERO_VEC3; 
             m_acceleration = ZERO_VEC3;
 
-            m_lives = LIVES_AMOUNT; 
+            m_collision->set_position(m_position + PLAYER_COLLISION_OFFSET);
+            m_collision->set_previous_position(m_position + PLAYER_COLLISION_OFFSET);
+
+            m_lives--;
         }
 
-        void use_live() { m_lives--; }
+        void use_life() { m_lives--; }
 
         // ————— PHYSICS ————— //
         void start_neutral() { m_movement = 0.f; }
 
         void move_left()     { m_movement -= 1.0f; }
         void move_right()    { m_movement += 1.0f; }
-
-        bool is_out_of_bounds();
 
         // ————— ANIMATION ————— //
         void update_anim();

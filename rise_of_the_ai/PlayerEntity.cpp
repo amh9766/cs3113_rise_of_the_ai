@@ -23,39 +23,31 @@
 #include "ShaderProgram.h"
 #include "AnimatedEntity.h"
 #include "PlayerEntity.h"
-#include "PlatformEntity.h"
+#include "CollisionBox.h"
+#include "Map.h"
 #include "platformer_lib.h"
 #include "helper.h"
 
-PlayerEntity::PlayerEntity(float width, float height, GLuint tex_id, 
+PlayerEntity::PlayerEntity(glm::vec3 spawn_point, GLuint tex_id, 
     std::vector<AnimationInfo> anims, int max_frames
     )
-    : AnimatedEntity(SPAWN_POINT,
-        width, height, 
+    : AnimatedEntity(spawn_point,
+        PLAYER_TEXTURE_WIDTH, PLAYER_TEXTURE_HEIGHT, 
         tex_id,
         anims, max_frames
       ),
-      m_movement(0.f), m_lives(LIVES_AMOUNT)
+      m_movement(0.f), m_lives(LIVES_AMOUNT) 
 {
-    glm::vec3 position_offset = glm::vec3(
-        SPAWN_POINT.x + 7.0f,
-        SPAWN_POINT.y + 3.0f,
-        0.0f
+    m_collision = new CollisionBox(
+        spawn_point + PLAYER_COLLISION_OFFSET,
+        PLAYER_COLLISION_WIDTH, 
+        PLAYER_COLLISION_HEIGHT
     );
-    m_collision = new CollisionBox(position_offset, 13.0f, 20.0f);
 }
 
 PlayerEntity::~PlayerEntity()
 {
     delete m_collision;
-}
-
-bool PlayerEntity::is_out_of_bounds()
-{
-    return (m_position.x < -BOUND) || 
-           ((m_position.x + m_width) > (INTERNAL_WIDTH + BOUND)) ||
-           (m_position.y < -BOUND) ||
-           ((m_position.y + m_height) > (INTERNAL_HEIGHT + BOUND));
 }
 
 void PlayerEntity::jump()
@@ -68,7 +60,7 @@ void PlayerEntity::fall()
     if (m_velocity.y < -JUMP_SPEED_THRESHOLD) m_velocity.y = -60.f;
 }
 
-void PlayerEntity::update(float delta_time, const std::vector<CollisionBox*>& map_collisions)
+void PlayerEntity::update(float delta_time, Map* map)
 { 
     // ————— PHYSICS ————— //
     if (m_movement == 0.f) m_velocity.x = 0.f;
@@ -87,7 +79,8 @@ void PlayerEntity::update(float delta_time, const std::vector<CollisionBox*>& ma
     // ————— COLLISIONS ————— //
     m_collision->update_position(m_velocity * delta_time);
     m_collision->reset_collision();
-    
+   
+    const std::vector<CollisionBox*> map_collisions = map->get_collisions();
     for (int i = 0; i < map_collisions.size(); i++)
     {
         m_position -= m_collision->collide_with(map_collisions[i]);
@@ -98,6 +91,9 @@ void PlayerEntity::update(float delta_time, const std::vector<CollisionBox*>& ma
     if (m_collision->get_collide_right() && (m_velocity.x > 0.f))  m_velocity.x = 0.f;
     if (m_collision->get_collide_top() && (m_velocity.y < 0.f))    m_velocity.y = 0.f;
     if (m_collision->get_collide_bottom() && (m_velocity.y > 0.f)) m_velocity.y = 0.f;
+
+    // Check out of bounds
+    if (m_position.y > (map->get_height() + 1) * TILE_SIZE) respawn(map->get_spawn_point());
 
     // Update animation based on movement 
     update_anim();

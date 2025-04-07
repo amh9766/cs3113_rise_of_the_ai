@@ -22,6 +22,10 @@ class CollisionBox
         bool get_collide_top()    const { return m_collide_top; }
         bool get_collide_left()   const { return m_collide_left; }
         bool get_collide_right()  const { return m_collide_right; }
+        
+        // ————— SETTERS ————— //
+        void set_position(glm::vec3 new_position)          { m_position = new_position; }
+        void set_previous_position(glm::vec3 new_position) { m_prev_position = new_position; }
 
         float calculate_left_overlap(CollisionBox* that)   { return m_position.x - (that->m_position.x + that->m_width); }
         float calculate_right_overlap(CollisionBox* that)  { return m_position.x + m_width - that->m_position.x; }

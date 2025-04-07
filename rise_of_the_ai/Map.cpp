@@ -24,9 +24,10 @@
 #include "platformer_lib.h"
 #include "helper.h"
 
-Map::Map(int width, int height, GLuint tex_id, ScrollType scroll_type,
+Map::Map(int width, int height, ScrollType scroll_type, glm::vec3 spawn_point, GLuint tex_id, 
     std::vector<int> tiles, std::vector<CollisionBox*> collisions)
-    : m_width(width), m_height(height), m_texture_id(tex_id), m_scroll_type(scroll_type), m_collisions(collisions)
+    : m_width(width), m_height(height), m_scroll_type(scroll_type), 
+      m_spawn_point(spawn_point), m_texture_id(tex_id), m_collisions(collisions)
 {
     m_model_mat = glm::scale(
         IDENTITY_MAT,

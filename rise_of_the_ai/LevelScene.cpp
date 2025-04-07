@@ -62,8 +62,9 @@ void LevelScene::initialise()
     m_game_state.map = new Map(
         29,
         14,
-        load_texture(TILESET_FILEPATH),
         HORIZONTAL,
+        glm::vec3(128.f, 0.f, 0.f),
+        load_texture(TILESET_FILEPATH),
         {
             -1,-1,81,82,-1,-1,-1,4,5,5,5,5,6,-1,-1,-1,4,5,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
             -1,96,97,98,-1,-1,-1,-1,-1,-1,-1,-1,4,5,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
@@ -101,8 +102,7 @@ void LevelScene::initialise()
 
     // ————— PLAYER ————— //
     m_game_state.player = new PlayerEntity(
-        27.0f,
-        30.0f,
+        m_game_state.map->get_spawn_point(),
         load_texture(PLAYER_FILEPATH),
         { 
             { 1, -1, BLINK, 125 * FIXED_TIMESTEP }, // Idle
@@ -150,7 +150,7 @@ void LevelScene::process_key_state(const Uint8* key_state)
 void LevelScene::update(float delta_time)
 {
     // ————— PLAYER ————— //
-    m_game_state.player->update(delta_time, m_game_state.map->get_collisions());
+    m_game_state.player->update(delta_time, m_game_state.map);
 
     // ————— CAMERA ————— //
     glm::vec3 player_position = m_game_state.player->get_position();

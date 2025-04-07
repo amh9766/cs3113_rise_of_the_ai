@@ -43,12 +43,18 @@ constexpr float TILE_Z_MAP[] = {
 
 constexpr float FIXED_TIMESTEP = 1.0f / 60.0f;
 
-constexpr glm::vec3 SPAWN_POINT = glm::vec3(128.0f, 0.0f, 0.0f);
+
 
 constexpr float BOUND = 100.0f;
 
 constexpr float INTERNAL_WIDTH  = 256.0f,
                 INTERNAL_HEIGHT = 224.0f;
+
+constexpr glm::vec3 PLAYER_COLLISION_OFFSET = glm::vec3(7.f, 3.f, 0.f);
+constexpr float PLAYER_TEXTURE_WIDTH = 27.f,
+                PLAYER_TEXTURE_HEIGHT = 30.f,
+                PLAYER_COLLISION_WIDTH = 13.f,
+                PLAYER_COLLISION_HEIGHT = 20.f;
 
 // Constants in pixels per second
 constexpr float WALK_SPEED = 6.f,
