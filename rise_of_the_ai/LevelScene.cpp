@@ -12,6 +12,7 @@
 #include <SDL_mixer.h>
 #include <vector>
 
+#include "glm/gtc/matrix_transform.hpp"
 #include "LevelScene.h"
 #include "CollisionBox.h"
 #include "platformer_lib.h"
@@ -31,6 +32,7 @@ LevelScene::~LevelScene()
 
 void LevelScene::initialise()
 {
+    // ————— RENDERING ————— //
     glClearColor(
         24.0f / 255.0f, 
         60.0f / 255.0f,
@@ -38,7 +40,8 @@ void LevelScene::initialise()
         1.0f
     );
 
-    // ————— BACKGROUND ————— //
+    m_game_state.view_matrix = IDENTITY_MAT;
+
     m_game_state.mission_won = new Background(
         INTERNAL_HEIGHT,
         INTERNAL_WIDTH,
@@ -60,6 +63,7 @@ void LevelScene::initialise()
         29,
         14,
         load_texture(TILESET_FILEPATH),
+        HORIZONTAL,
         {
             -1,-1,81,82,-1,-1,-1,4,5,5,5,5,6,-1,-1,-1,4,5,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
             -1,96,97,98,-1,-1,-1,-1,-1,-1,-1,-1,4,5,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
@@ -145,11 +149,46 @@ void LevelScene::process_key_state(const Uint8* key_state)
 
 void LevelScene::update(float delta_time)
 {
+    // ————— PLAYER ————— //
     m_game_state.player->update(delta_time, m_game_state.map->get_collisions());
+
+    // ————— CAMERA ————— //
+    glm::vec3 player_position = m_game_state.player->get_position();
+    glm::vec3 camera_position = ZERO_VEC3;
+    if (m_game_state.map->does_scroll_horizontal())
+    {
+        float current_position = -player_position.x 
+            + (INTERNAL_WIDTH - m_game_state.player->get_width()) / 2;
+        float camera_max = -m_game_state.map->get_width() * TILE_SIZE 
+            + INTERNAL_WIDTH;
+
+        if (current_position < 0) 
+        {
+            if (current_position < camera_max) camera_position.x = camera_max;
+            else camera_position.x = current_position;
+        }
+    }
+    if (m_game_state.map->does_scroll_vertical())
+    {
+        float current_position = -player_position.y
+            + (INTERNAL_HEIGHT - m_game_state.player->get_height()) / 2;
+        float camera_max = -m_game_state.map->get_height() * TILE_SIZE
+            + INTERNAL_HEIGHT;
+
+        if (current_position < 0) 
+        {
+            if (current_position < camera_max) camera_position.y = camera_max;
+            else camera_position.y = current_position;
+        }
+    }
+    m_game_state.view_matrix = glm::translate(IDENTITY_MAT, camera_position);
 }
 
 void LevelScene::render(ShaderProgram* program)
 {
+    // ————— CAMERA ————— //
+    program->set_view_matrix(m_game_state.view_matrix);
+
     // ————— MAP ————— //
     m_game_state.map->render(program);
 

@@ -29,6 +29,8 @@ class Entity
         glm::vec3 const get_position()     const { return m_position; }
         glm::vec3 const get_velocity()     const { return m_velocity; }
         glm::vec3 const get_acceleration() const { return m_acceleration; }
+        float const get_width()            const { return m_width; }
+        float const get_height()           const { return m_height; }
         glm::vec3 const get_scale()        const { return m_scale; }
         GLuint    const get_texture_id()   const { return m_texture_id; }
 

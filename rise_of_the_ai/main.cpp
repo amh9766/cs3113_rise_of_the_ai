@@ -105,12 +105,9 @@ void initialise()
 
     g_shader_program.load(V_SHADER_PATH, F_SHADER_PATH);
 
-    g_view_matrix       = IDENTITY_MAT;
     g_projection_matrix = glm::ortho(0.0f, INTERNAL_WIDTH, INTERNAL_HEIGHT, 0.0f, -1.0f, 1.0f);
 
     g_shader_program.set_projection_matrix(g_projection_matrix);
-    g_shader_program.set_view_matrix(g_view_matrix);
-
     glUseProgram(g_shader_program.get_program_id());
 
     g_current_scene = new LevelScene();

@@ -9,6 +9,7 @@
 
 struct GameState
 {
+    glm::mat4 view_matrix;
     PlayerEntity* player;
     Map* map;
 
