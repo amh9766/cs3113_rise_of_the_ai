@@ -27,11 +27,11 @@ class PlayerEntity : public AnimatedEntity
         bool m_collide_right;
 
         // ————— GAMEPLAY ————— //
-        int m_fuel;
+        int m_lives;
 
     public:
         // ————— GETTERS ————— //
-        int  const get_fuel()           const { return m_fuel; }
+        int  const get_lives()          const { return m_lives; }
         bool const get_collide_bottom() const { return m_collide_bottom; }
 
         // ————— GENERAL ————— //
@@ -50,18 +50,18 @@ class PlayerEntity : public AnimatedEntity
             m_velocity = glm::vec3(0.0f);
             m_acceleration = glm::vec3(0.0f);
 
-            m_fuel = FUEL_AMOUNT; 
+            m_lives = LIVES_AMOUNT; 
         }
 
-        void use_fuel() { if (m_fuel > 0) m_fuel -= FUEL_USAGE; }
+        void use_live() { m_lives--; }
 
         // ————— PHYSICS ————— //
         void start_neutral() { m_propulsion = glm::vec3(0.0f); }
 
-        void push_left()     { if (m_fuel > 0) { m_propulsion.x -= 1.0f; use_fuel(); } }
-        void push_right()    { if (m_fuel > 0) { m_propulsion.x += 1.0f; use_fuel(); } }
-        void push_up()       { if (m_fuel > 0) { m_propulsion.y -= 1.0f; use_fuel(); } }
-        void push_down()     { if (m_fuel > 0) { m_propulsion.y += 1.0f; use_fuel(); } }
+        void push_left()     { m_propulsion.x -= 1.0f; }
+        void push_right()    { m_propulsion.x += 1.0f; }
+        void push_up()       { m_propulsion.y -= 1.0f; }
+        void push_down()     { m_propulsion.y += 1.0f; }
 
         // ————— COLLISIONS ————— //
         void reset_collision()

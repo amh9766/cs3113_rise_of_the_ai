@@ -54,7 +54,6 @@ constexpr float ACCEL_OF_GRAVITY = 2.5f,
 
 constexpr float PLATFORM_SPEED = 20.0f;
 
-constexpr int FUEL_AMOUNT = 2500,
-              FUEL_USAGE = 1;
+constexpr int LIVES_AMOUNT = 3;
 
 #endif

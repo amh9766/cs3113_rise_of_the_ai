@@ -36,7 +36,7 @@ PlayerEntity::PlayerEntity(glm::vec3 init_scale,
         tex_id,
         anims, max_frames
       ),
-      m_propulsion(0.0f), m_fuel(FUEL_AMOUNT) 
+      m_propulsion(0.0f), m_lives(LIVES_AMOUNT) 
 {
 }
 
@@ -48,7 +48,7 @@ PlayerEntity::PlayerEntity(float width, float height, GLuint tex_id,
         tex_id,
         anims, max_frames
       ),
-      m_propulsion(0.0f), m_fuel(FUEL_AMOUNT) 
+      m_propulsion(0.0f), m_lives(LIVES_AMOUNT) 
 {
 }
 
