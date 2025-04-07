@@ -1,10 +1,10 @@
 //
 //  helper.cpp
-//  SDLProject
 //
 //  Created by Sebastián Romero Cruz on 5/31/22.
 //  Copyright © 2022 ctg. All rights reserved.
 //
+#define STB_IMAGE_IMPLEMENTATION
 #define GL_SILENCE_DEPRECATION
 #include <iostream>
 
@@ -20,25 +20,13 @@
 
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include "ShaderProgram.h"
+#include "stb_image.h"
 #include "helper.h"
 
 /**
  * Prints a formatted representation of a size x size matrix onto
  * the user's console. The \t character is used for horizontal
  * separation.
- *
- * For example, printing a 4 x 4 identity matrix
- *
- *      print_matrix(glm::mat4(1.0f), 4);
- *
- * Prints:
- *
- *     1    0    0    0
- *     0    1    0    0
- *     0    0    1    0
- *     0    0    0    1
- *
  * @param matrix Reference to the matrix.
  * @param size The size of the matrix
  */
@@ -49,10 +37,43 @@ void print_matrix(glm::mat4 &matrix, int size)
         for (auto col = 0 ; col < size ; col++)
         {
             // Print row
-            std::cout << matrix[row][col] << MAT_SEP;
+            std::cout << matrix[row][col] << "\t";
         }
         
         // Visually "move on" to the next row
         std::cout << "\n";
     }
+}
+
+GLuint load_texture(const char* filepath)
+{
+    GLint NUMBER_OF_TEXTURES = 1;
+    GLint LEVEL_OF_DETAIL    = 0;
+    GLint TEXTURE_BORDER     = 0;
+    
+    int width, height, number_of_components;
+    unsigned char* image = stbi_load(filepath, &width, &height, &number_of_components, 
+                                     STBI_rgb_alpha);
+
+    if (image == NULL)
+    {
+        LOG("Unable to load image. Make sure the path is correct.");
+        assert(false);
+    }
+
+    GLuint textureID;
+    glGenTextures(NUMBER_OF_TEXTURES, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexImage2D(GL_TEXTURE_2D, LEVEL_OF_DETAIL, GL_RGBA, width, height, TEXTURE_BORDER, 
+                 GL_RGBA, GL_UNSIGNED_BYTE, image);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    stbi_image_free(image);
+
+    return textureID;
 }

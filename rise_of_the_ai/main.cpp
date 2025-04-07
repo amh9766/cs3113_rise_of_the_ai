@@ -7,7 +7,6 @@
 * NYU School of Engineering Policies and Procedures on
 * Academic Misconduct.
 **/
-#define STB_IMAGE_IMPLEMENTATION
 #define GL_SILENCE_DEPRECATION
 #define GL_GLEXT_PROTOTYPES 1
 
@@ -20,7 +19,6 @@
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
-#include "stb_image.h"
 #include "cmath"
 #include <ctime>
 #include <vector>
@@ -65,10 +63,6 @@ constexpr char  PLAYER_FILEPATH[]       = "content/player.png",
                 MISSION_WON_FILEPATH[]  = "content/mission_won.png",
                 MISSION_LOSS_FILEPATH[] = "content/mission_loss.png";
 
-constexpr GLint NUMBER_OF_TEXTURES = 1;
-constexpr GLint LEVEL_OF_DETAIL    = 0;
-constexpr GLint TEXTURE_BORDER     = 0;
-
 constexpr float FIXED_TIMESTEP = 1.0f / 60.0f;
 
 // ————— STRUCTS AND ENUMS —————//
@@ -103,42 +97,11 @@ bool g_pause = false,
      g_lost = false;
 
 // ———— GENERAL FUNCTIONS ———— //
-GLuint load_texture(const char* filepath);
-
 void initialise();
 void process_input();
 void update();
 void render();
 void shutdown();
-
-GLuint load_texture(const char* filepath)
-{
-    int width, height, number_of_components;
-    unsigned char* image = stbi_load(filepath, &width, &height, &number_of_components, 
-                                     STBI_rgb_alpha);
-
-    if (image == NULL)
-    {
-        LOG("Unable to load image. Make sure the path is correct.");
-        assert(false);
-    }
-
-    GLuint textureID;
-    glGenTextures(NUMBER_OF_TEXTURES, &textureID);
-    glBindTexture(GL_TEXTURE_2D, textureID);
-    glTexImage2D(GL_TEXTURE_2D, LEVEL_OF_DETAIL, GL_RGBA, width, height, TEXTURE_BORDER, 
-                 GL_RGBA, GL_UNSIGNED_BYTE, image);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    stbi_image_free(image);
-
-    return textureID;
-}
 
 void initialise()
 {
