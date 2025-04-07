@@ -31,6 +31,11 @@
 #include "UILabel.h"
 #include "helper.h"
 #include "lunar_lib.h"
+#include <SDL_mixer.h>
+
+constexpr int CD_QUAL_FREQ    = 44100,  // compact disk (CD) quality frequency
+          AUDIO_CHAN_AMT  = 2,
+          AUDIO_BUFF_SIZE = 4096;
 
 // ————— CONSTANTS ————— //
 constexpr int WINDOW_WIDTH  = 960,
@@ -62,6 +67,11 @@ constexpr char  PLAYER_FILEPATH[]       = "content/player.png",
                 BACKGROUND_FILEPATH[]   = "content/background.png",
                 MISSION_WON_FILEPATH[]  = "content/mission_won.png",
                 MISSION_LOSS_FILEPATH[] = "content/mission_loss.png";
+
+constexpr char BGM_FILEPATH[] = "content/music/wood_man.mp3";
+constexpr int    LOOP_FOREVER = -1;
+
+Mix_Music *g_music;
 
 constexpr float FIXED_TIMESTEP = 1.0f / 60.0f;
 
@@ -105,7 +115,15 @@ void shutdown();
 
 void initialise()
 {
-    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+    Mix_OpenAudio(
+        CD_QUAL_FREQ,        // the frequency to playback audio at (in Hz)
+        MIX_DEFAULT_FORMAT,  // audio format
+        AUDIO_CHAN_AMT,      // number of channels (1 is mono, 2 is stereo, etc).
+        AUDIO_BUFF_SIZE      // audio buffer size in sample FRAMES (total samples divided by channel count)
+    );
+
     g_display_window = SDL_CreateWindow("Lunar Lander",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         WINDOW_WIDTH, WINDOW_HEIGHT,
@@ -156,6 +174,12 @@ void initialise()
         INTERNAL_WIDTH,
         load_texture(MISSION_LOSS_FILEPATH)
     );
+
+    g_music = Mix_LoadMUS(BGM_FILEPATH);
+
+    Mix_PlayMusic(g_music, LOOP_FOREVER);
+
+    Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 
     // ————— PLAYER ————— //
     g_game_state.player = new PlayerEntity(
