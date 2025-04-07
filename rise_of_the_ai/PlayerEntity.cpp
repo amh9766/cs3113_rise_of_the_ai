@@ -83,14 +83,15 @@ void PlayerEntity::update(float delta_time, Map* map)
     const std::vector<CollisionBox*> map_collisions = map->get_collisions();
     for (int i = 0; i < map_collisions.size(); i++)
     {
+        map_collisions[i]->reset_collision();
         m_position -= m_collision->collide_with(map_collisions[i]);
     }
 
     // Stop velocity if a collision ocurred with the map
-    if (m_collision->get_collide_left() && (m_velocity.x < 0.f))   m_velocity.x = 0.f;
-    if (m_collision->get_collide_right() && (m_velocity.x > 0.f))  m_velocity.x = 0.f;
-    if (m_collision->get_collide_top() && (m_velocity.y < 0.f))    m_velocity.y = 0.f;
-    if (m_collision->get_collide_bottom() && (m_velocity.y > 0.f)) m_velocity.y = 0.f;
+    if ((m_collision->get_collide_left() || m_collision->get_collide_right()) && m_velocity.x != 0.f)
+        m_velocity.x = 0.f;
+    else if ((m_collision->get_collide_top() || m_collision->get_collide_bottom()) && m_velocity.y != 0.f)
+        m_velocity.y = 0.f;
 
     // Check out of bounds
     if (m_position.y > (map->get_height() + 1) * TILE_SIZE) respawn(map->get_spawn_point());

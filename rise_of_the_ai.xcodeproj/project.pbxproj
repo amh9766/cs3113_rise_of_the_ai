@@ -58,6 +58,7 @@
 		CA09E93C2DA46CCA00CA189B /* LevelA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelA.h; sourceTree = "<group>"; };
 		CA09E93E2DA4764000CA189B /* StartScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartScreen.h; sourceTree = "<group>"; };
 		CA09E93F2DA4764000CA189B /* GameOverScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScreen.h; sourceTree = "<group>"; };
+		CA09E9412DA497BF00CA189B /* EndingScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndingScreen.h; sourceTree = "<group>"; };
 		CA445B202D7B8E7700F3B966 /* rise_of_the_ai */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rise_of_the_ai; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA445B2B2D7B914100F3B966 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CA445B2D2D7B914500F3B966 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -122,6 +123,7 @@
 		CA445B222D7B8E7700F3B966 /* rise_of_the_ai */ = {
 			isa = PBXGroup;
 			children = (
+				CA09E9412DA497BF00CA189B /* EndingScreen.h */,
 				CA09E93C2DA46CCA00CA189B /* LevelA.h */,
 				CA09E93F2DA4764000CA189B /* GameOverScreen.h */,
 				CA09E93E2DA4764000CA189B /* StartScreen.h */,

@@ -11,6 +11,7 @@
 constexpr char  PLAYER_FILEPATH[]    = "content/player.png",
                 START_FILEPATH[]     = "content/start.png",
                 GAME_OVER_FILEPATH[] = "content/game_over.png",
+                ENDING_FILEPATH[]    = "content/ending.png",
                 TILESET_FILEPATH[]   = "content/tileset.png";
 
 constexpr char BGM_FILEPATH[] = "content/music/wood_man.mp3";

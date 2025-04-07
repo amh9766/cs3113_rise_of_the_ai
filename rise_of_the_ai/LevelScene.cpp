@@ -79,6 +79,12 @@ void LevelScene::update(float delta_time)
     // ————— PLAYER ————— //
     m_game_state.player->update(delta_time, m_game_state.map);
 
+    if (m_game_state.map->get_win_collision()->get_collide_top())
+    {
+        m_game_state.scene_index = m_next_scene_index;
+        return;
+    }
+
     // ————— CAMERA ————— //
     glm::vec3 player_position = m_game_state.player->get_position();
     glm::vec3 camera_position = ZERO_VEC3;

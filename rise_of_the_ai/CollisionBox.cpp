@@ -34,6 +34,11 @@ glm::vec3 CollisionBox::collide_with(CollisionBox* that)
         m_collide_top    = top != prev_top;
         m_collide_bottom = bottom != prev_bottom;
 
+        that->m_collide_right = m_collide_left;
+        that->m_collide_left = m_collide_right;
+        that->m_collide_bottom = m_collide_top;
+        that->m_collide_top = m_collide_bottom;
+
         if (m_collide_left)       change_in_position.x = left_overlap;
         else if (m_collide_right) change_in_position.x = right_overlap;
 

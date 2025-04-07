@@ -29,6 +29,7 @@
 // Game-specific
 #include "StartScreen.h"
 #include "GameOverScreen.h"
+#include "EndingScreen.h"
 #include "LevelA.h"
 #include "platformer_lib.h"
 
@@ -141,8 +142,9 @@ void initialise()
 
     GLuint tileset_texture_id = load_texture(TILESET_FILEPATH);
 
-    g_scenes.push_back(new StartScreen(2));
+    g_scenes.push_back(new StartScreen(3));
     g_scenes.push_back(new GameOverScreen(0));
+    g_scenes.push_back(new EndingScreen(0));
     g_scenes.push_back(new LevelA(2, g_player, tileset_texture_id));
 
     g_scene_index = 0;

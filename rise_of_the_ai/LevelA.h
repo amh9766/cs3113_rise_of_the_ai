@@ -20,6 +20,11 @@ class LevelA : public LevelScene
             m_game_state.bgm = Mix_LoadMUS(BGM_FILEPATH);
             
             // ————— MAP ————— //
+            CollisionBox* win_collision = new CollisionBox(
+                glm::vec3(23.f * TILE_SIZE, 4.f * TILE_SIZE, 0.f),
+                2.f * TILE_SIZE,
+                1.f * TILE_SIZE
+            );
             m_game_state.map = new Map(
                 35,
                 14,
@@ -58,6 +63,7 @@ class LevelA : public LevelScene
                         3.f * TILE_SIZE,
                         1.f * TILE_SIZE
                     ),
+                    win_collision,
                     new CollisionBox(
                         glm::vec3(22.f * TILE_SIZE, 5.f * TILE_SIZE, 0.f),
                         4.f * TILE_SIZE,
@@ -72,20 +78,16 @@ class LevelA : public LevelScene
                         glm::vec3(0.f, 11.f * TILE_SIZE, 0.f),
                         27.f * TILE_SIZE,
                         3.f * TILE_SIZE
-                    ),
-                    new CollisionBox(
-                        glm::vec3(23.f * TILE_SIZE, 4.f * TILE_SIZE, 0.f),
-                        2.f * TILE_SIZE,
-                        1.f * TILE_SIZE
                     )
-                }
+                },
+                win_collision
             );
         }
         
         void initialise() override
         {
             // ————— GAME STATE ————— //
-            m_game_state.scene_index = 2;
+            m_game_state.scene_index = 3;
 
             Mix_PlayMusic(m_game_state.bgm, -1);
             Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
