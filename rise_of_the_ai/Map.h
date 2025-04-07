@@ -6,12 +6,6 @@
 #include "glm/glm.hpp"
 #include "ShaderProgram.h"
 
-enum TileType
-{
-    BACKGROUND,
-    FOREGROUND
-};
-
 struct Tile
 {
     int id;
