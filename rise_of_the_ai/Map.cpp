@@ -24,7 +24,7 @@
 #include "platformer_lib.h"
 #include "helper.h"
 
-Map::Map(int width, int height, GLuint tex_id, std::vector<Tile> tiles)
+Map::Map(int width, int height, GLuint tex_id, std::vector<int> tiles)
     : m_width(width), m_height(height), m_texture_id(tex_id)
 {
     m_model_mat = glm::scale(
@@ -35,7 +35,7 @@ Map::Map(int width, int height, GLuint tex_id, std::vector<Tile> tiles)
     int tile_count = 0;
     for (int i = 0; i < tiles.size(); i++)
     {
-        if (tiles[i].id != 0) tile_count++;
+        if (tiles[i] != -1) tile_count++;
     }
 
     m_tile_count = tile_count;
@@ -53,11 +53,11 @@ Map::Map(int width, int height, GLuint tex_id, std::vector<Tile> tiles)
             int tile_texture_index = tile * 12;
             int tile_vertex_index = tile * 18;
 
-            int tile_id = tiles[index].id;
+            int tile_id = tiles[index];
 
-            if (tile_id != 0)
+            if (tile_id != -1)
             {
-                float z = tiles[index].z;
+                float z = TILE_Z_MAP[tile_id];
 
                 float u = (float) (tile_id % TILESET_WIDTH) * TILESET_U;
                 float v = (float) (tile_id / TILESET_WIDTH) * TILESET_V;

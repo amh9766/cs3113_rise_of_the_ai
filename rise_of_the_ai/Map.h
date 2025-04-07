@@ -6,12 +6,6 @@
 #include "glm/glm.hpp"
 #include "ShaderProgram.h"
 
-struct Tile
-{
-    int id;
-    float z;
-};
-
 class Map 
 {
     private:
@@ -28,7 +22,7 @@ class Map
         
     public:
         // ————— GENERAL ————— //
-        Map(int width, int height, GLuint tex_id, std::vector<Tile> tiles);
+        Map(int width, int height, GLuint tex_id, std::vector<int> tiles);
         ~Map();
 
         void render(ShaderProgram* program);

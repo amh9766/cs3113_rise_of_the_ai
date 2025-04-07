@@ -33,13 +33,8 @@ constexpr int CD_QUAL_FREQ    = 44100,  // compact disk (CD) quality frequency
               AUDIO_CHAN_AMT  = 2,
               AUDIO_BUFF_SIZE = 4096;
 
-constexpr int WINDOW_WIDTH  = 960,
-              WINDOW_HEIGHT = 640;
-
-constexpr float BG_RED = 0.1922f,
-                BG_BLUE = 0.549f,
-                BG_GREEN = 0.9059f,
-                BG_OPACITY = 1.0f;
+constexpr int WINDOW_WIDTH  = 768,
+              WINDOW_HEIGHT = 672;
 
 constexpr int VIEWPORT_X = 0,
               VIEWPORT_Y = 0,
@@ -120,7 +115,6 @@ void initialise()
 
     glUseProgram(g_shader_program.get_program_id());
 
-    glClearColor(BG_RED, BG_BLUE, BG_GREEN, BG_OPACITY);
 
     g_current_scene = new LevelScene();
     g_current_scene->initialise();
