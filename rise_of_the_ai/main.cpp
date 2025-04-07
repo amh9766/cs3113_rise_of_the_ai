@@ -17,6 +17,7 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_mixer.h>
+#include <vector>
 #include <ctime>
 
 #include "glm/mat4x4.hpp"
@@ -24,6 +25,7 @@
 #include "ShaderProgram.h"
 #include "Scene.h"
 #include "LevelScene.h"
+#include "ScreenScene.h"
 #include "helper.h"
 #include "platformer_lib.h"
 #include "cmath"
@@ -56,7 +58,9 @@ AppStatus g_app_status = RUNNING;
 ShaderProgram g_shader_program = ShaderProgram();
 glm::mat4 g_view_matrix, g_projection_matrix;
 
-Scene* g_current_scene = nullptr;
+PlayerEntity* g_player = nullptr;
+std::vector<Scene*> g_scenes;
+int g_scene_index;
 
 float g_previous_ticks   = 0.0f;
 float g_time_accumulator = 0.0f;
@@ -110,8 +114,27 @@ void initialise()
     g_shader_program.set_projection_matrix(g_projection_matrix);
     glUseProgram(g_shader_program.get_program_id());
 
-    g_current_scene = new LevelScene();
-    g_current_scene->initialise();
+    // Set up player
+    g_player = new PlayerEntity(
+        load_texture(PLAYER_FILEPATH),
+        { 
+            { 1, -1, BLINK, 75 * FIXED_TIMESTEP }, // Idle
+            { 1, -1, IDLE, 10 * FIXED_TIMESTEP },   // Blink
+            { 1, -1, WALK, 10 * FIXED_TIMESTEP },   // Inch
+            { 4, 0,  NONE, 7 * FIXED_TIMESTEP },   // Walk
+            { 1, 0,  NONE, 1 * FIXED_TIMESTEP },    // Jump 
+            { 1, 0,  NONE, 1 * FIXED_TIMESTEP }     // Hurt 
+        },
+        4
+    );
+
+    GLuint tileset_texture_id = load_texture(TILESET_FILEPATH);
+
+    g_scenes.push_back(new ScreenScene());
+    g_scenes.push_back(new LevelScene(g_player, tileset_texture_id));
+
+    g_scene_index = 0;
+    g_scenes[g_scene_index]->initialise();
         
     // ————— GENERAL ————— //
     glEnable(GL_BLEND);
@@ -139,7 +162,7 @@ void process_input()
                             g_app_status = TERMINATED;
                             break;
                         default:
-                            g_current_scene->process_key_down(event);
+                            g_scenes[g_scene_index]->process_key_down(event);
                             break;
                     }
                 }
@@ -150,7 +173,7 @@ void process_input()
                     switch (event.key.keysym.sym)
                     {
                         default:
-                            g_current_scene->process_key_up(event);
+                            g_scenes[g_scene_index]->process_key_up(event);
                             break;
                     }
                 }
@@ -160,7 +183,7 @@ void process_input()
         }
     }
 
-    g_current_scene->process_key_state(SDL_GetKeyboardState(NULL));
+    g_scenes[g_scene_index]->process_key_state(SDL_GetKeyboardState(NULL));
 }
 
 void update()
@@ -181,7 +204,16 @@ void update()
 
     while (delta_time >= FIXED_TIMESTEP)
     {
-        g_current_scene->update(FIXED_TIMESTEP);
+        // Check if the scene has changed
+        int scene_index = g_scenes[g_scene_index]->get_scene_index();
+        if (g_scene_index != scene_index)
+        {
+            g_scene_index = scene_index;
+            g_scenes[g_scene_index]->initialise();
+        }
+
+        // Apply scene update
+        g_scenes[g_scene_index]->update(FIXED_TIMESTEP);
         delta_time -= FIXED_TIMESTEP;
     }
 
@@ -197,7 +229,7 @@ void render()
     glEnableVertexAttribArray(g_shader_program.get_tex_coordinate_attribute());
 
     // ————— SCENE ————— //
-    g_current_scene->render(&g_shader_program);
+    g_scenes[g_scene_index]->render(&g_shader_program);
     
     // ————— GENERAL ————— //
     glDisableVertexAttribArray(g_shader_program.get_position_attribute());
@@ -208,7 +240,12 @@ void render()
 
 void shutdown() 
 {
-    delete g_current_scene;
+    for (int i = 0; i < g_scenes.size(); i++)
+    {
+        delete g_scenes[i];
+    }
+    delete g_player;
+
     SDL_Quit();
 }
 

@@ -36,7 +36,7 @@ class PlayerEntity : public AnimatedEntity
         int  const get_lives() const { return m_lives; }
 
         // ————— GENERAL ————— //
-        PlayerEntity(glm::vec3 spawn_point, GLuint tex_id, std::vector<AnimationInfo> anim_frames, int max_frames);
+        PlayerEntity(GLuint tex_id, std::vector<AnimationInfo> anim_frames, int max_frames);
         ~PlayerEntity();
 
         void update(float delta_time, Map* map);
@@ -45,7 +45,7 @@ class PlayerEntity : public AnimatedEntity
         void jump();
         void fall();
 
-        void respawn(glm::vec3 spawn_point)
+        void spawn(glm::vec3 spawn_point)
         {
             m_position     = spawn_point;
             m_velocity     = ZERO_VEC3; 
@@ -53,7 +53,11 @@ class PlayerEntity : public AnimatedEntity
 
             m_collision->set_position(m_position + PLAYER_COLLISION_OFFSET);
             m_collision->set_previous_position(m_position + PLAYER_COLLISION_OFFSET);
+        }
 
+        void respawn(glm::vec3 spawn_point)
+        {
+            spawn(spawn_point);
             m_lives--;
         }
 

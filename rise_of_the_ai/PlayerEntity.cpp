@@ -28,10 +28,10 @@
 #include "platformer_lib.h"
 #include "helper.h"
 
-PlayerEntity::PlayerEntity(glm::vec3 spawn_point, GLuint tex_id, 
+PlayerEntity::PlayerEntity(GLuint tex_id, 
     std::vector<AnimationInfo> anims, int max_frames
     )
-    : AnimatedEntity(spawn_point,
+    : AnimatedEntity(ZERO_VEC3,
         PLAYER_TEXTURE_WIDTH, PLAYER_TEXTURE_HEIGHT, 
         tex_id,
         anims, max_frames
@@ -39,7 +39,7 @@ PlayerEntity::PlayerEntity(glm::vec3 spawn_point, GLuint tex_id,
       m_movement(0.f), m_lives(LIVES_AMOUNT) 
 {
     m_collision = new CollisionBox(
-        spawn_point + PLAYER_COLLISION_OFFSET,
+        ZERO_VEC3 + PLAYER_COLLISION_OFFSET,
         PLAYER_COLLISION_WIDTH, 
         PLAYER_COLLISION_HEIGHT
     );

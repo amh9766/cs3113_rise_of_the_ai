@@ -1,12 +1,18 @@
 #ifndef LEVEL_SCENE_H
 #define LEVEL_SCENE_H
 
+#include <SDL.h>
 #include "Scene.h"
+#include "PlayerEntity.h"
 #include "platformer_lib.h"
 
 class LevelScene : public Scene
 {
+    private:
+        GLuint m_texture_id;
+
     public:
+        LevelScene(PlayerEntity* player, GLuint m_texture_id);
         ~LevelScene();
 
         void initialise() override;

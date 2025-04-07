@@ -9,14 +9,12 @@
 
 struct GameState
 {
+    int scene_index;
     glm::mat4 view_matrix;
     PlayerEntity* player;
     Map* map;
-
     Mix_Music *bgm;
-
-    Background* mission_won;
-    Background* mission_loss;
+    Background* background;
 };
 
 #endif

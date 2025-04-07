@@ -15,44 +15,14 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "LevelScene.h"
 #include "CollisionBox.h"
+#include "Map.h"
 #include "platformer_lib.h"
 #include "helper.h"
 
-LevelScene::~LevelScene()
+LevelScene::LevelScene(PlayerEntity* player, GLuint texture_id)
+    : m_texture_id(texture_id)
 {
-    delete m_game_state.player;
-
-    delete m_game_state.map;
-
-    delete m_game_state.mission_won;
-    delete m_game_state.mission_loss;
-
-    Mix_FreeMusic(m_game_state.bgm);
-}
-
-void LevelScene::initialise()
-{
-    // ————— RENDERING ————— //
-    glClearColor(
-        24.0f / 255.0f, 
-        60.0f / 255.0f,
-        92.0f / 255.0f, 
-        1.0f
-    );
-
-    m_game_state.view_matrix = IDENTITY_MAT;
-
-    m_game_state.mission_won = new Background(
-        INTERNAL_HEIGHT,
-        INTERNAL_WIDTH,
-        load_texture(MISSION_WON_FILEPATH)
-    );
-
-    m_game_state.mission_loss = new Background(
-        INTERNAL_HEIGHT,
-        INTERNAL_WIDTH,
-        load_texture(MISSION_LOSS_FILEPATH)
-    );
+    m_game_state.player = player;
 
     m_game_state.bgm = Mix_LoadMUS(BGM_FILEPATH);
     Mix_PlayMusic(m_game_state.bgm, -1);
@@ -63,8 +33,8 @@ void LevelScene::initialise()
         35,
         14,
         HORIZONTAL,
+        texture_id,
         glm::vec3(128.f, 0.f, 0.f),
-        load_texture(TILESET_FILEPATH),
         {
             -1,-1,81,82,-1,-1,-1,4,5,5,5,5,6,-1,-1,-1,4,5,6,-1,-1,-1,-1,-1,-1,-1,-1,4,5,5,5,6,-1,-1,-1,
             -1,96,97,98,-1,-1,-1,-1,-1,-1,-1,-1,4,5,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
@@ -119,21 +89,30 @@ void LevelScene::initialise()
             )
         }
     );
+}
 
-    // ————— PLAYER ————— //
-    m_game_state.player = new PlayerEntity(
-        m_game_state.map->get_spawn_point(),
-        load_texture(PLAYER_FILEPATH),
-        { 
-            { 1, -1, BLINK, 75 * FIXED_TIMESTEP }, // Idle
-            { 1, -1, IDLE, 10 * FIXED_TIMESTEP },   // Blink
-            { 1, -1, WALK, 10 * FIXED_TIMESTEP },   // Inch
-            { 4, 0,  NONE, 7 * FIXED_TIMESTEP },   // Walk
-            { 1, 0,  NONE, 1 * FIXED_TIMESTEP },    // Jump 
-            { 1, 0,  NONE, 1 * FIXED_TIMESTEP }     // Hurt 
-        },
-        4
+LevelScene::~LevelScene()
+{
+    delete m_game_state.map;
+
+    Mix_FreeMusic(m_game_state.bgm);
+}
+
+void LevelScene::initialise()
+{
+    // ————— GAME STATE ————— //
+    m_game_state.scene_index = 1;
+
+    // ————— RENDERING ————— //
+    glClearColor(
+        24.0f / 255.0f, 
+        60.0f / 255.0f,
+        92.0f / 255.0f, 
+        1.0f
     );
+    
+    // ————— PLAYER ————— //
+    m_game_state.player->spawn(m_game_state.map->get_spawn_point());
 }
 
 void LevelScene::process_key_down(SDL_Event& event)

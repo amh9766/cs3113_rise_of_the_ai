@@ -40,7 +40,7 @@ class Map
         bool does_scroll_horizontal() const { return m_scroll_type & HORIZONTAL; }
         bool does_scroll_vertical()   const { return m_scroll_type & VERTICAL; }
 
-        Map(int width, int height, ScrollType scroll_type, glm::vec3 spawn_point, GLuint tex_id,
+        Map(int width, int height, ScrollType scroll_type, GLuint texture_id, glm::vec3 spawn_point,
             std::vector<int> tile, std::vector<CollisionBox*> collisions);
         ~Map();
 

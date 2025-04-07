@@ -18,7 +18,8 @@ class Scene
         virtual void update(float delta_time) = 0;
         virtual void render(ShaderProgram* program) = 0;
 
-    GameState const get_state() const { return m_game_state; }
+        int get_scene_index() const { return m_game_state.scene_index; }
+        GameState const get_state() const { return m_game_state; }
 };
 
 #endif
