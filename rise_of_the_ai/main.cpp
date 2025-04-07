@@ -46,8 +46,6 @@ constexpr char V_SHADER_PATH[] = "shaders/vertex_textured.glsl",
 
 constexpr float MILLISECONDS_IN_SECOND = 1000.0;
 
-constexpr float FIXED_TIMESTEP = 1.0f / 60.0f;
-
 // ————— STRUCTS AND ENUMS —————//
 enum AppStatus { RUNNING, TERMINATED };
 
@@ -114,7 +112,6 @@ void initialise()
     g_shader_program.set_view_matrix(g_view_matrix);
 
     glUseProgram(g_shader_program.get_program_id());
-
 
     g_current_scene = new LevelScene();
     g_current_scene->initialise();

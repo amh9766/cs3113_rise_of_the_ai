@@ -9,10 +9,13 @@
 
 enum PlayerAnim : int
 {
-    IDLE       = 0,
-    UP         = 1,
-    DOWN       = 2,
-    HORIZONTAL = 3
+    NONE = -1,
+    IDLE  = 0,
+    BLINK = 1,
+    INCH  = 2,
+    WALK  = 3,
+    JUMP  = 4,
+    HURT  = 5
 };
 
 class PlayerEntity : public AnimatedEntity 

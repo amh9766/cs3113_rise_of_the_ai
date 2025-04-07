@@ -64,21 +64,26 @@ void AnimatedEntity::set_anim(int anim)
     }
 }
 
+bool AnimatedEntity::is_anim(int anim)
+{
+    return m_curr_anim == anim;
+}
+
 void AnimatedEntity::update(float delta_time)
 {
+    AnimationInfo anim = m_anims[m_curr_anim];
     m_anim_time += delta_time;
-    float frames_per_second = 0.05f;
-
-    AnimationInfo curr_anim = m_anims[m_curr_anim];
-
-    int num_of_frames = curr_anim.total_frames;
     
-    if (m_anim_time >= frames_per_second)
+    if (m_anim_time >= anim.time_duration)
     {
         m_anim_time = 0.0f;
         m_anim_index++;
 
-        if (m_anim_index >= num_of_frames) m_anim_index = curr_anim.loop_index;
+        if (m_anim_index >= anim.total_frames)
+        {
+            if (anim.loop_index != -1) m_anim_index = anim.loop_index;
+            if (anim.next_anim != -1)  set_anim(anim.next_anim);
+        }
     }
 
     Entity::update(delta_time);

@@ -41,7 +41,9 @@ constexpr float TILE_Z_MAP[] = {
     0.5f, 0.5f, 0.5f, 0.5f, 0.5f
 };
 
-constexpr glm::vec3 SPAWN_POINT = glm::vec3(120.0f, 80.0f, 0.0f);
+constexpr float FIXED_TIMESTEP = 1.0f / 60.0f;
+
+constexpr glm::vec3 SPAWN_POINT = glm::vec3(128.0f, 0.0f, 0.0f);
 
 constexpr float BOUND = 100.0f;
 

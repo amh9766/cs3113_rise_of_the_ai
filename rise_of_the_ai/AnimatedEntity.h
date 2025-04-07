@@ -34,6 +34,7 @@ class AnimatedEntity : public Entity
 
         // ————— ANIMATION ————— //
         void set_anim(int anim);
+        bool is_anim(int anim);
         void enable_x_flip()  { m_flip_horizontal = true; }
         void disable_x_flip() { m_flip_horizontal = false; }
 };

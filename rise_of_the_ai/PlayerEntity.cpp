@@ -139,12 +139,14 @@ void PlayerEntity::update(float delta_time, std::vector<PlatformEntity>& platfor
 void PlayerEntity::update_anim()
 {
     // Flip based on direction player should be facing
-    if (m_propulsion.x < 0.0f)      enable_x_flip();
-    else if (m_propulsion.x > 0.0f) disable_x_flip();
+    if (m_propulsion.x < 0.0f)      disable_x_flip();
+    else if (m_propulsion.x > 0.0f) enable_x_flip();
 
     // Set the corresponding animation
-    if (m_propulsion.y < 0.0f)       set_anim(PlayerAnim::UP);
-    else if (m_propulsion.y > 0.0f)  set_anim(PlayerAnim::DOWN);
-    else if (m_propulsion.x != 0.0f) set_anim(PlayerAnim::HORIZONTAL);
-    else                             set_anim(PlayerAnim::IDLE);
+    if (m_propulsion.y < 0.0f)       set_anim(JUMP);
+    else if (m_propulsion.x != 0.0f) 
+    {
+        if (is_anim(IDLE)) set_anim(INCH);
+    }
+    else if (!is_anim(BLINK))        set_anim(IDLE);
 }
