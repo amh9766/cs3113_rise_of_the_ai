@@ -43,10 +43,6 @@ constexpr float TILE_Z_MAP[] = {
 
 constexpr float FIXED_TIMESTEP = 1.0f / 60.0f;
 
-
-
-constexpr float BOUND = 100.0f;
-
 constexpr float INTERNAL_WIDTH  = 256.0f,
                 INTERNAL_HEIGHT = 224.0f;
 
