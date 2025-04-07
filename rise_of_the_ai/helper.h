@@ -7,9 +7,11 @@
     #include <GL/glew.h>
 #endif
 
+#include <iostream>
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include "glm/mat4x4.hpp"
+#include "glm/vec3.hpp"
 
 #define LOG(argument) std::cout << argument << '\n'
 
@@ -26,6 +28,8 @@ constexpr float STANDARD_COORDINATES[] =
     1.0f, 0.0f,  // Upper right
     0.0f, 0.0f   // Upper left
 };
+
+constexpr glm::vec3 ZERO_VEC3 = glm::vec3(0.0f);
 
 void print_matrix(glm::mat4 &matrix, int size);
 GLuint load_texture(const char* filepath);

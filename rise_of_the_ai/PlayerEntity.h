@@ -5,6 +5,7 @@
 #include "ShaderProgram.h"
 #include "AnimatedEntity.h"
 #include "PlatformEntity.h"
+#include "CollisionBox.h"
 #include "platformer_lib.h"
 
 enum PlayerAnim : int
@@ -24,10 +25,8 @@ class PlayerEntity : public AnimatedEntity
         // ————— PHYSICS ————— //
         glm::vec3 m_propulsion;
 
-        bool m_collide_bottom;
-        bool m_collide_top;
-        bool m_collide_left;
-        bool m_collide_right;
+        // ————— COLLISIONS ————— //
+        CollisionBox* m_collision;
 
         // ————— GAMEPLAY ————— //
         int m_lives;
@@ -35,16 +34,13 @@ class PlayerEntity : public AnimatedEntity
     public:
         // ————— GETTERS ————— //
         int  const get_lives()          const { return m_lives; }
-        bool const get_collide_bottom() const { return m_collide_bottom; }
 
         // ————— GENERAL ————— //
-        PlayerEntity(glm::vec3 init_scale, 
-            float m_width, float m_height, 
+        PlayerEntity(float width, float height, 
             GLuint tex_id, std::vector<AnimationInfo> anim_frames, int max_frames);
-        PlayerEntity(float m_width, float m_height, 
-            GLuint tex_id, std::vector<AnimationInfo> anim_frames, int max_frames);
+        ~PlayerEntity();
 
-        void update(float delta_time, std::vector<PlatformEntity>& platforms);
+        void update(float delta_time, const std::vector<CollisionBox*>& map_collisions);
 
         // ————— GAMEPLAY ————— //
         void reset()
@@ -66,16 +62,6 @@ class PlayerEntity : public AnimatedEntity
         void push_up()       { m_propulsion.y -= 1.0f; }
         void push_down()     { m_propulsion.y += 1.0f; }
 
-        // ————— COLLISIONS ————— //
-        void reset_collision()
-        {
-            m_collide_bottom = false; 
-            m_collide_top    = false;
-            m_collide_left   = false;
-            m_collide_right  = false;
-        }
-
-        void collides_with(glm::vec3& prev_position, PlatformEntity& platform);
         bool is_out_of_bounds();
 
         // ————— ANIMATION ————— //

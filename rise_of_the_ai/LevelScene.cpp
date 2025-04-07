@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "LevelScene.h"
+#include "CollisionBox.h"
 #include "platformer_lib.h"
 #include "helper.h"
 
@@ -74,6 +75,23 @@ void LevelScene::initialise()
             32,33,32,33,32,33,16,17,16,17,16,17,16,17,16,17,16,17,16,17,16,17,16,17,16,17,16,17,16,
             32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,
             32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32
+        },
+        {
+            new CollisionBox(
+                glm::vec3(0.0f, 176.0f, 0.0f),
+                464.0f,
+                48.0f
+            ),
+            new CollisionBox(
+                ZERO_VEC3,
+                96.0f,
+                208.0f
+            ),
+            new CollisionBox(
+                glm::vec3(160.f, 96.f, 0.f),
+                16.0f,
+                16.0f
+            )
         }
     );
 
@@ -119,9 +137,7 @@ void LevelScene::process_key_state(const Uint8* key_state)
 
 void LevelScene::update(float delta_time)
 {
-    std::vector<PlatformEntity> platforms;
-    m_game_state.player->update(delta_time, platforms);
-
+    m_game_state.player->update(delta_time, m_game_state.map->get_collisions());
 }
 
 void LevelScene::render(ShaderProgram* program)

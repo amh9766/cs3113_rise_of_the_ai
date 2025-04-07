@@ -24,8 +24,8 @@
 #include "platformer_lib.h"
 #include "helper.h"
 
-Map::Map(int width, int height, GLuint tex_id, std::vector<int> tiles)
-    : m_width(width), m_height(height), m_texture_id(tex_id)
+Map::Map(int width, int height, GLuint tex_id, std::vector<int> tiles, std::vector<CollisionBox*> collisions)
+    : m_width(width), m_height(height), m_texture_id(tex_id), m_collisions(collisions)
 {
     m_model_mat = glm::scale(
         IDENTITY_MAT,
@@ -124,6 +124,8 @@ Map::~Map()
 {
     delete [] m_vertices;
     delete [] m_texture_coordinates;
+
+    for (int i = 0; i < m_collisions.size(); i++) delete m_collisions[i];
 }
 
 void Map::render(ShaderProgram* program) 

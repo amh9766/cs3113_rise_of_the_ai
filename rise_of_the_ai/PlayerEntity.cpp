@@ -27,19 +27,6 @@
 #include "platformer_lib.h"
 #include "helper.h"
 
-PlayerEntity::PlayerEntity(glm::vec3 init_scale, 
-    float width, float height, GLuint tex_id, 
-    std::vector<AnimationInfo> anims, int max_frames
-    )
-    : AnimatedEntity(SPAWN_POINT, init_scale,
-        width, height, 
-        tex_id,
-        anims, max_frames
-      ),
-      m_propulsion(0.0f), m_lives(LIVES_AMOUNT) 
-{
-}
-
 PlayerEntity::PlayerEntity(float width, float height, GLuint tex_id, 
     std::vector<AnimationInfo> anims, int max_frames
     )
@@ -50,58 +37,17 @@ PlayerEntity::PlayerEntity(float width, float height, GLuint tex_id,
       ),
       m_propulsion(0.0f), m_lives(LIVES_AMOUNT) 
 {
+    glm::vec3 position_offset = glm::vec3(
+        SPAWN_POINT.x + 7.0f,
+        SPAWN_POINT.y + 3.0f,
+        0.0f
+    );
+    m_collision = new CollisionBox(position_offset, 13.0f, 20.0f);
 }
 
-void PlayerEntity::collides_with(glm::vec3& prev_position, PlatformEntity& platform)
+PlayerEntity::~PlayerEntity()
 {
-    float left_overlap   = platform.calculate_left_overlap(m_position.x, m_width);
-    float right_overlap  = platform.calculate_right_overlap(m_position.x);
-    float top_overlap    = platform.calculate_top_overlap(m_position.y, m_height);
-    float bottom_overlap = platform.calculate_bottom_overlap(m_position.y);
-    
-    bool right = left_overlap < 0.0f;
-    bool left = right_overlap > 0.0f;
-    bool bottom = top_overlap < 0.0f;
-    bool top = bottom_overlap > 0.0f;
-
-    bool prev_right   =  platform.calculate_left_overlap(prev_position.x, m_width) < 0.0f;
-    bool prev_left    =  platform.calculate_right_overlap(prev_position.x) > 0.0f;
-    bool prev_bottom  =  platform.calculate_top_overlap(prev_position.y, m_height) < 0.0f;
-    bool prev_top     =  platform.calculate_bottom_overlap(prev_position.y) > 0.0f;
-
-    if (left && right && top && bottom)
-    {
-        m_collide_left = left != prev_left;
-        m_collide_right = right != prev_right;
-        m_collide_top = top != prev_top;
-        m_collide_bottom = bottom != prev_bottom;
-
-        if (m_collide_left)
-        {
-            m_position.x = prev_position.x + right_overlap;
-            if (m_acceleration.x < 0.0f) m_acceleration.x = 0.0f;
-            if (m_velocity.x < 0.0f) m_velocity.x = 0.0f;
-
-        }
-        if (m_collide_right)
-        {
-            m_position.x = prev_position.x + left_overlap;
-            if (m_acceleration.x > 0.0f) m_acceleration.x = 0.0f;
-            if (m_velocity.x > 0.0f) m_velocity.x = 0.0f;
-        }
-        if (m_collide_top) 
-        {
-            m_position.y = prev_position.y + bottom_overlap;
-            if (m_acceleration.y < 0.0f) m_acceleration.y = 0.0f;
-            if (m_velocity.y < 0.0f) m_velocity.y = 0.0f;
-        }
-        if (m_collide_bottom)
-        {
-            m_position.y = prev_position.y + top_overlap;
-            if (m_acceleration.y > 0.0f) m_acceleration.y = 0.0f;
-            if (m_velocity.y > 0.0f) m_velocity.y = 0.0f;
-        }
-    }
+    delete m_collision;
 }
 
 bool PlayerEntity::is_out_of_bounds()
@@ -112,11 +58,10 @@ bool PlayerEntity::is_out_of_bounds()
            ((m_position.y + m_height) > (INTERNAL_HEIGHT + BOUND));
 }
 
-void PlayerEntity::update(float delta_time, std::vector<PlatformEntity>& platforms)
+void PlayerEntity::update(float delta_time, const std::vector<CollisionBox*>& map_collisions)
 {
-    // Record previous position and reset collision flags
-    glm::vec3 prev_position = m_position;
-    reset_collision();
+    // Reset collision flags
+    m_collision->reset_collision();
 
     // Set initial acceleration to propulsion force 
     m_acceleration = ACCEL_OF_PROPULSION * m_propulsion;
@@ -127,13 +72,17 @@ void PlayerEntity::update(float delta_time, std::vector<PlatformEntity>& platfor
 
     m_acceleration += gravity_accel + drag_accel;
 
+    AnimatedEntity::update(delta_time);
+    m_collision->update_position(m_velocity * delta_time);
+    
+    // Adjust new position, velocity, and acceleration based on any collisions
+    for (int i = 0; i < map_collisions.size(); i++)
+    {
+        m_position -= m_collision->collide_with(map_collisions[i]);
+    }
+
     // Update animation based on propulsion
     update_anim();
-
-    AnimatedEntity::update(delta_time);
-
-    // Adjust new position, velocity, and acceleration based on any collisions
-    for (int i = 0; i < platforms.size(); i++) collides_with(prev_position, platforms[i]);
 }
 
 void PlayerEntity::update_anim()
