@@ -63,9 +63,6 @@ void Entity::update(float delta_time)
     // Apply resulting forces on entity
     m_velocity += m_acceleration * delta_time;
     m_position += m_velocity * delta_time;
-
-    // Update model matrix
-    update_model_mat();
 }
 
 void Entity::render(ShaderProgram* program)

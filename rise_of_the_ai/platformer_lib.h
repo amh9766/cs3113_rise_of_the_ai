@@ -50,9 +50,13 @@ constexpr float BOUND = 100.0f;
 constexpr float INTERNAL_WIDTH  = 256.0f,
                 INTERNAL_HEIGHT = 224.0f;
 
-constexpr float ACCEL_OF_GRAVITY = 2.5f,
-                ACCEL_OF_PROPULSION = 15.0f,
-                DRAG_COEFFICIENT = 0.25f;
+// Constants in pixels per second
+constexpr float WALK_SPEED = 6.f,
+                WALK_SPEED_CAP = 48.f,
+                JUMP_SPEED = 3.34f / FIXED_TIMESTEP,
+                JUMP_SPEED_THRESHOLD = 2.12109375f / FIXED_TIMESTEP,
+                FALL_SPEED = 10.f,
+                FALL_SPEED_CAP = 7.f / FIXED_TIMESTEP;
 
 constexpr float PLATFORM_SPEED = 20.0f;
 

@@ -35,7 +35,7 @@ PlayerEntity::PlayerEntity(float width, float height, GLuint tex_id,
         tex_id,
         anims, max_frames
       ),
-      m_propulsion(0.0f), m_lives(LIVES_AMOUNT) 
+      m_movement(0.f), m_lives(LIVES_AMOUNT)
 {
     glm::vec3 position_offset = glm::vec3(
         SPAWN_POINT.x + 7.0f,
@@ -58,44 +58,69 @@ bool PlayerEntity::is_out_of_bounds()
            ((m_position.y + m_height) > (INTERNAL_HEIGHT + BOUND));
 }
 
-void PlayerEntity::update(float delta_time, const std::vector<CollisionBox*>& map_collisions)
+void PlayerEntity::jump()
 {
-    // Reset collision flags
-    m_collision->reset_collision();
+    if (m_collision->get_collide_bottom()) m_velocity.y = -JUMP_SPEED;
+}
 
-    // Set initial acceleration to propulsion force 
-    m_acceleration = ACCEL_OF_PROPULSION * m_propulsion;
+void PlayerEntity::fall()
+{
+    if (m_velocity.y < -JUMP_SPEED_THRESHOLD) m_velocity.y = -60.f;
+}
 
-    // Add natural forces on player 
-    glm::vec3 gravity_accel = glm::vec3(0.0f, ACCEL_OF_GRAVITY, 0.0f);
-    glm::vec3 drag_accel = -DRAG_COEFFICIENT * m_velocity;
+void PlayerEntity::update(float delta_time, const std::vector<CollisionBox*>& map_collisions)
+{ 
+    // ————— PHYSICS ————— //
+    if (m_movement == 0.f) m_velocity.x = 0.f;
 
-    m_acceleration += gravity_accel + drag_accel;
+    m_velocity.x += m_movement * WALK_SPEED;
+    if (!m_collision->get_collide_bottom() || abs(m_velocity.x) > WALK_SPEED_CAP)
+    {
+        m_velocity.x = m_movement * WALK_SPEED_CAP;
+    }
+
+    m_velocity.y += FALL_SPEED;
+    if (m_velocity.y > FALL_SPEED_CAP) m_velocity.y = FALL_SPEED_CAP;
 
     AnimatedEntity::update(delta_time);
+
+    // ————— COLLISIONS ————— //
     m_collision->update_position(m_velocity * delta_time);
+    m_collision->reset_collision();
     
-    // Adjust new position, velocity, and acceleration based on any collisions
     for (int i = 0; i < map_collisions.size(); i++)
     {
         m_position -= m_collision->collide_with(map_collisions[i]);
     }
 
-    // Update animation based on propulsion
+    // Stop velocity if a collision ocurred with the map
+    if (m_collision->get_collide_left() && (m_velocity.x < 0.f))   m_velocity.x = 0.f;
+    if (m_collision->get_collide_right() && (m_velocity.x > 0.f))  m_velocity.x = 0.f;
+    if (m_collision->get_collide_top() && (m_velocity.y < 0.f))    m_velocity.y = 0.f;
+    if (m_collision->get_collide_bottom() && (m_velocity.y > 0.f)) m_velocity.y = 0.f;
+
+    // Update animation based on movement 
     update_anim();
+
+    // Update model matrix at the very end
+    update_model_mat();
 }
 
 void PlayerEntity::update_anim()
 {
     // Flip based on direction player should be facing
-    if (m_propulsion.x < 0.0f)      disable_x_flip();
-    else if (m_propulsion.x > 0.0f) enable_x_flip();
+    if (m_movement < 0.f)      disable_x_flip();
+    else if (m_movement > 0.f) enable_x_flip();
 
     // Set the corresponding animation
-    if (m_propulsion.y < 0.0f)       set_anim(JUMP);
-    else if (m_propulsion.x != 0.0f) 
+    if (m_collision->get_collide_bottom()) // Grounded
     {
-        if (is_anim(IDLE)) set_anim(INCH);
+        if (m_movement != 0.f) 
+        {
+            if (is_anim(IDLE)) set_anim(INCH);
+            else if (is_anim(JUMP)) set_anim(WALK);
+        }
+        else if (!is_anim(BLINK)) set_anim(IDLE);
     }
-    else if (!is_anim(BLINK))        set_anim(IDLE);
+    else set_anim(JUMP);
 }

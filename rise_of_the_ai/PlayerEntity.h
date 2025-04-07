@@ -7,6 +7,7 @@
 #include "PlatformEntity.h"
 #include "CollisionBox.h"
 #include "platformer_lib.h"
+#include "helper.h"
 
 enum PlayerAnim : int
 {
@@ -23,7 +24,7 @@ class PlayerEntity : public AnimatedEntity
 {
     private:
         // ————— PHYSICS ————— //
-        glm::vec3 m_propulsion;
+        float m_movement;
 
         // ————— COLLISIONS ————— //
         CollisionBox* m_collision;
@@ -43,11 +44,14 @@ class PlayerEntity : public AnimatedEntity
         void update(float delta_time, const std::vector<CollisionBox*>& map_collisions);
 
         // ————— GAMEPLAY ————— //
+        void jump();
+        void fall();
+
         void reset()
         {
-            m_position = SPAWN_POINT;
-            m_velocity = glm::vec3(0.0f);
-            m_acceleration = glm::vec3(0.0f);
+            m_position     = SPAWN_POINT;
+            m_velocity     = ZERO_VEC3; 
+            m_acceleration = ZERO_VEC3;
 
             m_lives = LIVES_AMOUNT; 
         }
@@ -55,12 +59,10 @@ class PlayerEntity : public AnimatedEntity
         void use_live() { m_lives--; }
 
         // ————— PHYSICS ————— //
-        void start_neutral() { m_propulsion = glm::vec3(0.0f); }
+        void start_neutral() { m_movement = 0.f; }
 
-        void push_left()     { m_propulsion.x -= 1.0f; }
-        void push_right()    { m_propulsion.x += 1.0f; }
-        void push_up()       { m_propulsion.y -= 1.0f; }
-        void push_down()     { m_propulsion.y += 1.0f; }
+        void move_left()     { m_movement -= 1.0f; }
+        void move_right()    { m_movement += 1.0f; }
 
         bool is_out_of_bounds();
 

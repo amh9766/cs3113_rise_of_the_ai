@@ -69,8 +69,8 @@ void LevelScene::initialise()
             18,37,68,69,37,20,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
             18,37,37,37,37,20,65,65,65,65,-1,-1,-1,-1,-1,-1,-1,48,49,49,50,-1,-1,-1,-1,-1,-1,-1,-1,
             18,37,37,37,37,20,64,64,64,64,-1,-1,-1,-1,-1,-1,-1,51,51,51,51,-1,-1,-1,-1,-1,-1,-1,-1,
-            18,37,37,37,37,20,64,64,64,64,-1,-1,-1,-1,-1,-1,-1,67,66,67,67,-1,-1,-1,48,49,50,-1,-1,
-            18,37,37,37,37,20,64,64,64,64,-1,-1,-1,-1,-1,-1,-1,67,67,66,67,-1,-1,-1,51,51,51,-1,-1,
+            18,37,37,37,37,20,64,64,118,64,-1,-1,-1,-1,-1,-1,-1,67,66,67,67,-1,-1,-1,48,49,50,-1,-1,
+            18,37,37,37,37,20,64,64,144,64,-1,-1,-1,-1,-1,-1,-1,67,67,66,67,-1,-1,-1,51,51,51,-1,-1,
             18,37,37,37,37,20,80,64,64,64,-1,-1,-1,-1,-1,-1,-1,66,67,67,67,-1,-1,-1,67,66,67,-1,-1,
             32,33,32,33,32,33,16,17,16,17,16,17,16,17,16,17,16,17,16,17,16,17,16,17,16,17,16,17,16,
             32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,33,32,
@@ -78,14 +78,14 @@ void LevelScene::initialise()
         },
         {
             new CollisionBox(
-                glm::vec3(0.0f, 176.0f, 0.0f),
-                464.0f,
-                48.0f
+                glm::vec3(0.0f, 11.f * TILE_SIZE, 0.0f),
+                29.f * TILE_SIZE,
+                3.f * TILE_SIZE
             ),
             new CollisionBox(
                 ZERO_VEC3,
-                96.0f,
-                208.0f
+                6.f * TILE_SIZE,
+                13.f * TILE_SIZE
             ),
             new CollisionBox(
                 glm::vec3(160.f, 96.f, 0.f),
@@ -105,20 +105,30 @@ void LevelScene::initialise()
             { 1, -1, IDLE, 10 * FIXED_TIMESTEP },   // Blink
             { 1, -1, WALK, 10 * FIXED_TIMESTEP },   // Inch
             { 4, 0,  NONE, 12 * FIXED_TIMESTEP },   // Walk
-            { 1, 0,  NONE, FIXED_TIMESTEP },        // Jump 
-            { 1, 0,  NONE, FIXED_TIMESTEP }         // Hurt 
+            { 1, 0,  NONE, 1 * FIXED_TIMESTEP },    // Jump 
+            { 1, 0,  NONE, 1 * FIXED_TIMESTEP }     // Hurt 
         },
         4
     );
-
-    // ————— PLATFORMS ————— //
-    
-    // ————— UI ————— //
 }
 
 void LevelScene::process_key_down(SDL_Event& event)
 {
     switch (event.key.keysym.sym) {
+        case SDLK_c:
+            m_game_state.player->jump();
+            break;
+        default:
+            break;
+    }
+}
+
+void LevelScene::process_key_up(SDL_Event& event)
+{
+    switch (event.key.keysym.sym) {
+        case SDLK_c:
+            m_game_state.player->fall();
+            break;
         default:
             break;
     }
@@ -126,13 +136,11 @@ void LevelScene::process_key_down(SDL_Event& event)
 
 void LevelScene::process_key_state(const Uint8* key_state)
 {
-    // Reset any input-based forces
+    // Reset any input-based movements 
     m_game_state.player->start_neutral();
 
-    if (key_state[SDL_SCANCODE_LEFT])  m_game_state.player->push_left();
-    if (key_state[SDL_SCANCODE_RIGHT]) m_game_state.player->push_right();
-    if (key_state[SDL_SCANCODE_UP])    m_game_state.player->push_up();
-    if (key_state[SDL_SCANCODE_DOWN])  m_game_state.player->push_down();
+    if (key_state[SDL_SCANCODE_A]) m_game_state.player->move_left();
+    if (key_state[SDL_SCANCODE_D]) m_game_state.player->move_right();
 }
 
 void LevelScene::update(float delta_time)
@@ -147,6 +155,4 @@ void LevelScene::render(ShaderProgram* program)
 
     // ————— PLAYER ————— //
     m_game_state.player->render(program);
-
-    // ————— PLATFORM ————— //
 }

@@ -127,20 +127,37 @@ void process_input()
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
-        switch (event.type) {
+        switch (event.type)
+        {
             case SDL_QUIT:
             case SDL_WINDOWEVENT_CLOSE:
                 g_app_status = TERMINATED;
                 break;
             case SDL_KEYDOWN:
-                switch (event.key.keysym.sym) {
-                    case SDLK_q:
-                        g_app_status = TERMINATED;
-                        break;
-                    default:
-                        g_current_scene->process_key_down(event);
-                        break;
+                if (event.key.repeat == 0)
+                {
+                    switch (event.key.keysym.sym)
+                    {
+                        case SDLK_q:
+                            g_app_status = TERMINATED;
+                            break;
+                        default:
+                            g_current_scene->process_key_down(event);
+                            break;
+                    }
                 }
+                break;
+            case SDL_KEYUP:
+                if (event.key.repeat == 0)
+                {
+                    switch (event.key.keysym.sym)
+                    {
+                        default:
+                            g_current_scene->process_key_up(event);
+                            break;
+                    }
+                }
+                break;
             default:
                 break;
         }
