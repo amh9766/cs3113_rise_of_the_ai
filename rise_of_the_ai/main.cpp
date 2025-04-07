@@ -128,8 +128,6 @@ void initialise()
 void process_input()
 {
     SDL_Event event;
-    const Uint8* key_state = SDL_GetKeyboardState(NULL);
-
     while (SDL_PollEvent(&event))
     {
         switch (event.type) {
