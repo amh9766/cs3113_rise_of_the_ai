@@ -18,9 +18,7 @@ class LevelA : public LevelScene
             : LevelScene(next_scene_index, player)
         {
             m_game_state.bgm = Mix_LoadMUS(BGM_FILEPATH);
-            Mix_PlayMusic(m_game_state.bgm, -1);
-            Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
-
+            
             // ————— MAP ————— //
             m_game_state.map = new Map(
                 35,
@@ -88,6 +86,9 @@ class LevelA : public LevelScene
         {
             // ————— GAME STATE ————— //
             m_game_state.scene_index = 2;
+
+            Mix_PlayMusic(m_game_state.bgm, -1);
+            Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 
             // ————— RENDERING ————— //
             glClearColor(

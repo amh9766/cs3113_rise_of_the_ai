@@ -63,8 +63,15 @@ ShaderProgram g_shader_program = ShaderProgram();
 glm::mat4 g_view_matrix, g_projection_matrix;
 
 PlayerEntity* g_player = nullptr;
+
+// ———— SCENES ———— //
 std::vector<Scene*> g_scenes;
 int g_scene_index;
+void switch_scene(int scene_index)
+{
+    g_scene_index = scene_index;
+    g_scenes[g_scene_index]->initialise();
+}
 
 float g_previous_ticks   = 0.0f;
 float g_time_accumulator = 0.0f;
@@ -166,6 +173,15 @@ void process_input()
                         case SDLK_q:
                             g_app_status = TERMINATED;
                             break;
+                        case SDLK_1:
+                            switch_scene(0);
+                            break;
+                        case SDLK_2:
+                            switch_scene(1);
+                            break;
+                        case SDLK_3:
+                            switch_scene(2);
+                            break;
                         default:
                             g_scenes[g_scene_index]->process_key_down(event);
                             break;
@@ -211,11 +227,7 @@ void update()
     {
         // Check if the scene has changed
         int scene_index = g_scenes[g_scene_index]->get_scene_index();
-        if (g_scene_index != scene_index)
-        {
-            g_scene_index = scene_index;
-            g_scenes[g_scene_index]->initialise();
-        }
+        if (g_scene_index != scene_index) switch_scene(scene_index);
 
         // Apply scene update
         g_scenes[g_scene_index]->update(FIXED_TIMESTEP);
@@ -253,6 +265,8 @@ void shutdown()
 
     SDL_Quit();
 }
+
+
 
 int main(int argc, char* argv[])
 {
