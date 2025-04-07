@@ -79,14 +79,14 @@ void LevelScene::initialise()
 
     // ————— PLAYER ————— //
     m_game_state.player = new PlayerEntity(
-        30.0f,
+        27.0f,
         30.0f,
         load_texture(PLAYER_FILEPATH),
         { 
-            { 1, -1, BLINK, 150 * FIXED_TIMESTEP }, // Idle
+            { 1, -1, BLINK, 125 * FIXED_TIMESTEP }, // Idle
             { 1, -1, IDLE, 10 * FIXED_TIMESTEP },   // Blink
-            { 1, -1, WALK, 15 * FIXED_TIMESTEP  },   // Inch
-            { 4, 0,  NONE, 20 * FIXED_TIMESTEP },   // Walk
+            { 1, -1, WALK, 10 * FIXED_TIMESTEP },   // Inch
+            { 4, 0,  NONE, 12 * FIXED_TIMESTEP },   // Walk
             { 1, 0,  NONE, FIXED_TIMESTEP },        // Jump 
             { 1, 0,  NONE, FIXED_TIMESTEP }         // Hurt 
         },
