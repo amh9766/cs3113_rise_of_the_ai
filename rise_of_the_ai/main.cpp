@@ -181,7 +181,7 @@ void update()
 
     while (delta_time >= FIXED_TIMESTEP)
     {
-        g_current_scene->update(delta_time);
+        g_current_scene->update(FIXED_TIMESTEP);
         delta_time -= FIXED_TIMESTEP;
     }
 

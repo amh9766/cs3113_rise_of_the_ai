@@ -105,10 +105,10 @@ void LevelScene::initialise()
         m_game_state.map->get_spawn_point(),
         load_texture(PLAYER_FILEPATH),
         { 
-            { 1, -1, BLINK, 125 * FIXED_TIMESTEP }, // Idle
+            { 1, -1, BLINK, 75 * FIXED_TIMESTEP }, // Idle
             { 1, -1, IDLE, 10 * FIXED_TIMESTEP },   // Blink
             { 1, -1, WALK, 10 * FIXED_TIMESTEP },   // Inch
-            { 4, 0,  NONE, 12 * FIXED_TIMESTEP },   // Walk
+            { 4, 0,  NONE, 7 * FIXED_TIMESTEP },   // Walk
             { 1, 0,  NONE, 1 * FIXED_TIMESTEP },    // Jump 
             { 1, 0,  NONE, 1 * FIXED_TIMESTEP }     // Hurt 
         },

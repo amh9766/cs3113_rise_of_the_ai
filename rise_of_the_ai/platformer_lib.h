@@ -58,10 +58,10 @@ constexpr float PLAYER_TEXTURE_WIDTH = 27.f,
 
 // Constants in pixels per second
 constexpr float WALK_SPEED = 6.f,
-                WALK_SPEED_CAP = 48.f,
-                JUMP_SPEED = 3.34f / FIXED_TIMESTEP,
+                WALK_SPEED_CAP = 1.5f / FIXED_TIMESTEP,
+                JUMP_SPEED = 4.87109375f / FIXED_TIMESTEP,
                 JUMP_SPEED_THRESHOLD = 2.12109375f / FIXED_TIMESTEP,
-                FALL_SPEED = 10.f,
+                FALL_SPEED = 0.25f / FIXED_TIMESTEP,
                 FALL_SPEED_CAP = 7.f / FIXED_TIMESTEP;
 
 constexpr float PLATFORM_SPEED = 20.0f;
