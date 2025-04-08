@@ -1,7 +1,7 @@
 /**
 * Author: Amani Hernandez (amh9766)
 * Assignment: Rise of the AI
-* Date due: 2025-04-05, 11:59pm
+* Date due: 2025-04-07, 11:59pm
 * I pledge that I have completed this assignment without
 * collaborating with anyone else, in conformance with the
 * NYU School of Engineering Policies and Procedures on
@@ -47,10 +47,10 @@ void EnemyEntity::update(float delta_time, PlayerEntity* player)
             switch (m_ai_type)
             {
                 case STEP_CHASE:
-                    if (m_accumulated_time > 60.f * FIXED_TIMESTEP) m_ai_state = ATTACKING;
+                    if (m_accumulated_time > ENEMY_WAIT_TIME) m_ai_state = ATTACKING;
                     break;
                 case CLOSE_CHASE:
-                    if (distance_between < 7.f * TILE_SIZE) m_ai_state = ATTACKING;
+                    if (distance_between < ENEMY_PROXIMITY_MIN) m_ai_state = ATTACKING;
                     break;
                 case SCARED_CHASE:
                     if (!player_facing_enemy) m_ai_state = ATTACKING;
@@ -62,7 +62,7 @@ void EnemyEntity::update(float delta_time, PlayerEntity* player)
             switch (m_ai_type)
             {
                 case STEP_CHASE:
-                    if (m_accumulated_time < 80.f * FIXED_TIMESTEP) m_velocity *= 10.f;
+                    if (m_accumulated_time < ENEMY_WAIT_TIME + ENEMY_ATTACK_TIME) m_velocity *= 10.f;
                     else 
                     {
                         m_accumulated_time = 0.f;
@@ -73,7 +73,7 @@ void EnemyEntity::update(float delta_time, PlayerEntity* player)
                     if (player_facing_enemy) m_ai_state = WAITING; 
                     break;
                 case CLOSE_CHASE:
-                    if (distance_between > 7.f * TILE_SIZE) m_ai_state = WAITING;
+                    if (distance_between > ENEMY_PROXIMITY_MIN) m_ai_state = WAITING;
                     break;
             }
             m_velocity *= (1 + m_accumulated_time / 2.f) * ENEMY_SPEED;

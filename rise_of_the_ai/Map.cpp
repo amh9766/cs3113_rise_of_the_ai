@@ -1,7 +1,7 @@
 /**
 * Author: Amani Hernandez (amh9766)
 * Assignment: Rise of the AI
-* Date due: 2025-04-05, 11:59pm
+* Date due: 2025-04-07, 11:59pm
 * I pledge that I have completed this assignment without
 * collaborating with anyone else, in conformance with the
 * NYU School of Engineering Policies and Procedures on
@@ -54,15 +54,12 @@ Map::Map(int width, int height, ScrollType scroll_type, GLuint texture_id,
         {
             int index = offset + j;
 
-            int tile_texture_index = tile * 12;
-            int tile_vertex_index = tile * 18;
+            int tile_index = tile * 12;
 
             int tile_id = tiles[index];
 
             if (tile_id != -1)
             {
-                float z = TILE_Z_MAP[tile_id];
-
                 float u = (float) (tile_id % TILESET_WIDTH) * TILESET_U;
                 float v = (float) (tile_id / TILESET_WIDTH) * TILESET_V;
 
@@ -70,53 +67,47 @@ Map::Map(int width, int height, ScrollType scroll_type, GLuint texture_id,
 
                 // Triangle 1
                 // Lower left
-                m_vertices[tile_vertex_index + 0] = j;
-                m_vertices[tile_vertex_index + 1] = i + 1;
-                m_vertices[tile_vertex_index + 2] = z;
+                m_vertices[tile_index + 0] = j;
+                m_vertices[tile_index + 1] = i + 1;
 
-                m_texture_coordinates[tile_texture_index + 0] = u;
-                m_texture_coordinates[tile_texture_index + 1] = v + TILESET_V;
+                m_texture_coordinates[tile_index + 0] = u;
+                m_texture_coordinates[tile_index + 1] = v + TILESET_V;
 
                 // Lower right
-                m_vertices[tile_vertex_index + 3] = j + 1; 
-                m_vertices[tile_vertex_index + 4] = i + 1;
-                m_vertices[tile_vertex_index + 5] = z;
+                m_vertices[tile_index + 2] = j + 1; 
+                m_vertices[tile_index + 3] = i + 1;
 
-                m_texture_coordinates[tile_texture_index + 2] = u + TILESET_U;
-                m_texture_coordinates[tile_texture_index + 3] = v + TILESET_V;
+                m_texture_coordinates[tile_index + 2] = u + TILESET_U;
+                m_texture_coordinates[tile_index + 3] = v + TILESET_V;
 
                 // Upper right
-                m_vertices[tile_vertex_index + 6] = j + 1;
-                m_vertices[tile_vertex_index + 7] = i;
-                m_vertices[tile_vertex_index + 8] = z;
+                m_vertices[tile_index + 4] = j + 1;
+                m_vertices[tile_index + 5] = i;
 
-                m_texture_coordinates[tile_texture_index + 4] = u + TILESET_U;
-                m_texture_coordinates[tile_texture_index + 5] = v;
+                m_texture_coordinates[tile_index + 4] = u + TILESET_U;
+                m_texture_coordinates[tile_index + 5] = v;
 
                 // Triangle 2
                 // Lower left
-                m_vertices[tile_vertex_index + 9] = m_vertices[tile_vertex_index + 0];
-                m_vertices[tile_vertex_index + 10] = m_vertices[tile_vertex_index + 1];
-                m_vertices[tile_vertex_index + 11] = m_vertices[tile_vertex_index + 2];
+                m_vertices[tile_index + 6] = m_vertices[tile_index + 0];
+                m_vertices[tile_index + 7] = m_vertices[tile_index + 1];
 
-                m_texture_coordinates[tile_texture_index + 6] = m_texture_coordinates[tile_texture_index + 0];
-                m_texture_coordinates[tile_texture_index + 7] = m_texture_coordinates[tile_texture_index + 1];
+                m_texture_coordinates[tile_index + 6] = m_texture_coordinates[tile_index + 0];
+                m_texture_coordinates[tile_index + 7] = m_texture_coordinates[tile_index + 1];
 
                 // Upper right
-                m_vertices[tile_vertex_index + 12] = m_vertices[tile_vertex_index + 6];
-                m_vertices[tile_vertex_index + 13] = m_vertices[tile_vertex_index + 7];
-                m_vertices[tile_vertex_index + 14] = m_vertices[tile_vertex_index + 8];
+                m_vertices[tile_index + 8] = m_vertices[tile_index + 4];
+                m_vertices[tile_index + 9] = m_vertices[tile_index + 5];
 
-                m_texture_coordinates[tile_texture_index + 8] = m_texture_coordinates[tile_texture_index + 4];
-                m_texture_coordinates[tile_texture_index + 9] = m_texture_coordinates[tile_texture_index + 5];
+                m_texture_coordinates[tile_index + 8] = m_texture_coordinates[tile_index + 4];
+                m_texture_coordinates[tile_index + 9] = m_texture_coordinates[tile_index + 5];
 
                 // Upper left
-                m_vertices[tile_vertex_index + 15] = j;
-                m_vertices[tile_vertex_index + 16] = i;
-                m_vertices[tile_vertex_index + 17] = z;
+                m_vertices[tile_index + 10] = j;
+                m_vertices[tile_index + 11] = i;
 
-                m_texture_coordinates[tile_texture_index + 10] = u;
-                m_texture_coordinates[tile_texture_index + 11] = v;
+                m_texture_coordinates[tile_index + 10] = u;
+                m_texture_coordinates[tile_index + 11] = v;
 
                 tile++;
             }
@@ -138,7 +129,7 @@ void Map::render(ShaderProgram* program)
     glBindTexture(GL_TEXTURE_2D, m_texture_id);
 
     glVertexAttribPointer(program->get_position_attribute(),
-        3, GL_FLOAT, false, 0, m_vertices);
+        2, GL_FLOAT, false, 0, m_vertices);
     glVertexAttribPointer(program->get_tex_coordinate_attribute(),
         2, GL_FLOAT, false, 0, m_texture_coordinates);
 
