@@ -96,9 +96,6 @@ void EnemyEntity::update(float delta_time, PlayerEntity* player)
             break;
     }
 
-    LOG("AHHHH");
-    LOG(m_velocity.x << " " << m_velocity.y);
-
     AnimatedEntity::update(delta_time);
 
     m_collision->reset_collision();
