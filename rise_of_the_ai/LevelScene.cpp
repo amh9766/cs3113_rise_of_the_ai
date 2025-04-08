@@ -76,6 +76,9 @@ void LevelScene::update(float delta_time)
         return;
     }
 
+    // ————— ENEMY ————— //
+    m_game_state.enemy->update(delta_time, m_game_state.player);
+
     // ————— PLAYER ————— //
     m_game_state.player->update(delta_time, m_game_state.map);
 
@@ -127,4 +130,7 @@ void LevelScene::render(ShaderProgram* program)
 
     // ————— PLAYER ————— //
     m_game_state.player->render(program);
+
+    // ————— ENEMY ————— //
+    m_game_state.enemy->render(program);
 }

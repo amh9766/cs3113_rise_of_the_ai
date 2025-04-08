@@ -156,7 +156,6 @@ void initialise()
         
     // ————— GENERAL ————— //
     glEnable(GL_BLEND);
-    glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
@@ -255,7 +254,7 @@ void update()
 void render()
 {
     // ————— GENERAL ————— //
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
 
     glEnableVertexAttribArray(g_shader_program.get_position_attribute());
     glEnableVertexAttribArray(g_shader_program.get_tex_coordinate_attribute());

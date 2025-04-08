@@ -174,6 +174,14 @@ class LevelC : public LevelScene
                 },
                 win_collision
             );
+
+            m_game_state.enemy = new EnemyEntity(
+                glm::vec3(-4.f * TILE_SIZE, 10.f * TILE_SIZE, 0.f),
+                10.f,
+                10.f,
+                load_texture(ENEMY_C_FILEPATH),
+                CHASE
+            );
         }
         
         void initialise() override

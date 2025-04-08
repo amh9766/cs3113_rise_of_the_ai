@@ -81,6 +81,14 @@ class LevelA : public LevelScene
                 },
                 win_collision
             );
+
+            m_game_state.enemy = new EnemyEntity(
+                glm::vec3(18.f * TILE_SIZE, 4.f * TILE_SIZE, 0.f),
+                10.f,
+                10.f,
+                load_texture(ENEMY_A_FILEPATH),
+                CLOSE_CHASE
+            );
         }
         
         void initialise() override

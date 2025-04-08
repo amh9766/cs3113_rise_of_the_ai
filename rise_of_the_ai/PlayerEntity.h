@@ -39,6 +39,8 @@ class PlayerEntity : public AnimatedEntity
 
     public:
         // ————— GETTERS ————— //
+        CollisionBox* const get_collision() const { return m_collision; }
+        float const get_movement() const { return m_movement; }
         int  const get_lives() const { return m_lives; }
 
         // ————— GENERAL ————— //

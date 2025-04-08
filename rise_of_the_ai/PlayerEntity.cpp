@@ -45,7 +45,7 @@ PlayerEntity::PlayerEntity(GLuint tex_id,
 
     // ————— GAMEPLAY ————— //
     m_collision = new CollisionBox(
-        ZERO_VEC3 + PLAYER_COLLISION_OFFSET,
+        PLAYER_COLLISION_OFFSET,
         PLAYER_COLLISION_WIDTH, 
         PLAYER_COLLISION_HEIGHT
     );

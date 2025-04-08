@@ -126,6 +126,14 @@ class LevelB : public LevelScene
                 },
                 win_collision
             );
+
+            m_game_state.enemy = new EnemyEntity(
+                glm::vec3(13.f * TILE_SIZE, 10.f * TILE_SIZE, 0.f),
+                10.f,
+                10.f,
+                load_texture(ENEMY_B_FILEPATH),
+                SCARED_CHASE 
+            );
         }
         
         void initialise() override

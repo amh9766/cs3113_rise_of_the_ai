@@ -23,6 +23,7 @@ class CollisionBox
         bool get_collide_top()    const { return m_collide_top; }
         bool get_collide_left()   const { return m_collide_left; }
         bool get_collide_right()  const { return m_collide_right; }
+        bool get_collide() const { return m_collide_bottom || m_collide_top || m_collide_left || m_collide_right; }
 
         // ————— SETTERS ————— //
         void set_position(glm::vec3 new_position)          { m_position = new_position; }

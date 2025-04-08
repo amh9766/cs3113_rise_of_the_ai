@@ -3,12 +3,13 @@
 
 #include "glm/glm.hpp"
 
-// Sources:
-//      Player     - https://www.spriters-resource.com/ds_dsi/kirbysqueaksquad/sheet/2505/
-//      Background - https://www.spriters-resource.com/game_boy_advance/kirbynim/sheet/2976/
-//      Platform   - https://www.spriters-resource.com/game_boy_advance/kirbynim/sheet/134385/
-//      Font       - https://www.spriters-resource.com/ds_dsi/kirbysqueaksquad/sheet/3337/
+// Sources: 
+//  - https://www.spriters-resource.com/nes/mm2/
+//  - https://www.sounds-resource.com/nes/megaman2/sound/3616/
 constexpr char  PLAYER_FILEPATH[]    = "content/player.png",
+                ENEMY_A_FILEPATH[]   = "content/enemy_a.png",
+                ENEMY_B_FILEPATH[]   = "content/enemy_b.png",
+                ENEMY_C_FILEPATH[]   = "content/enemy_c.png",
                 START_FILEPATH[]     = "content/start.png",
                 GAME_OVER_FILEPATH[] = "content/game_over.png",
                 ENDING_FILEPATH[]    = "content/ending.png",
@@ -61,6 +62,8 @@ constexpr float WALK_SPEED = 6.f,
                 JUMP_SPEED_THRESHOLD = 2.12109375f / FIXED_TIMESTEP,
                 FALL_SPEED = 0.25f / FIXED_TIMESTEP,
                 FALL_SPEED_CAP = 7.f / FIXED_TIMESTEP;
+
+constexpr float ENEMY_SPEED = 0.25f / FIXED_TIMESTEP;
 
 constexpr int LIVES_AMOUNT = 3;
 
