@@ -32,6 +32,7 @@ class PlayerEntity : public AnimatedEntity
 
         // ————— SOUND ————— //
         Mix_Chunk* m_land_sfx;
+        Mix_Chunk* m_death_sfx;
 
         // ————— GAMEPLAY ————— //
         int m_lives;

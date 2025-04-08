@@ -41,6 +41,7 @@ PlayerEntity::PlayerEntity(GLuint tex_id,
 {
     // ————— SOUND ————— //
     m_land_sfx = Mix_LoadWAV(LAND_FILEPATH);
+    m_death_sfx = Mix_LoadWAV(DEATH_FILEPATH);
 
     // ————— GAMEPLAY ————— //
     m_collision = new CollisionBox(
@@ -101,7 +102,11 @@ void PlayerEntity::update(float delta_time, Map* map)
     }
 
     // Check out of bounds
-    if (m_position.y > (map->get_height() + 3) * TILE_SIZE) respawn(map->get_spawn_point());
+    if (m_position.y > (map->get_height() + 3) * TILE_SIZE) 
+    {
+        Mix_PlayChannel(-1, m_death_sfx, 0);
+        respawn(map->get_spawn_point());
+    }
 
     // Update animation based on movement 
     update_anim();
