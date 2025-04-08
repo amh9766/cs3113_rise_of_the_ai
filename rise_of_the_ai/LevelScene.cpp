@@ -16,6 +16,7 @@
 #include "LevelScene.h"
 #include "CollisionBox.h"
 #include "Map.h"
+#include "EnemyEntity.h"
 #include "platformer_lib.h"
 #include "helper.h"
 
@@ -34,7 +35,10 @@ LevelScene::~LevelScene()
 void LevelScene::initialise()
 {
     // ————— PLAYER ————— //
-    m_game_state.player->spawn(m_game_state.map->get_spawn_point());
+    m_game_state.player->spawn(m_game_state.map->get_player_spawn_point());
+    
+    // ————— ENEMY ————— //
+    m_game_state.enemy->spawn(m_game_state.map->get_enemy_spawn_point());
 }
 
 void LevelScene::process_key_down(SDL_Event& event)
@@ -80,7 +84,7 @@ void LevelScene::update(float delta_time)
     m_game_state.enemy->update(delta_time, m_game_state.player);
 
     // ————— PLAYER ————— //
-    m_game_state.player->update(delta_time, m_game_state.map);
+    m_game_state.player->update(delta_time, m_game_state.map, m_game_state.enemy);
 
     if (m_game_state.map->get_win_collision()->get_collide_top())
     {

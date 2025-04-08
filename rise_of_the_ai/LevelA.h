@@ -30,6 +30,7 @@ class LevelA : public LevelScene
                 HORIZONTAL,
                 texture_id,
                 glm::vec3(8.f * TILE_SIZE, 9.f * TILE_SIZE, 0.f),
+                glm::vec3(18.f * TILE_SIZE, 4.f * TILE_SIZE, 0.f),
                 {
                     -1,-1,81,82,-1,-1,-1,4,5,5,5,5,6,-1,-1,-1,4,5,6,-1,-1,-1,-1,-1,-1,-1,-1,4,5,5,5,6,-1,-1,-1,
                     -1,96,97,98,-1,-1,-1,-1,-1,-1,-1,-1,4,5,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
@@ -83,7 +84,6 @@ class LevelA : public LevelScene
             );
 
             m_game_state.enemy = new EnemyEntity(
-                glm::vec3(18.f * TILE_SIZE, 4.f * TILE_SIZE, 0.f),
                 10.f,
                 10.f,
                 load_texture(ENEMY_A_FILEPATH),
@@ -101,11 +101,11 @@ class LevelA : public LevelScene
 
             // ————— RENDERING ————— //
             glClearColor(
-                    24.0f / 255.0f, 
-                    60.0f / 255.0f,
-                    92.0f / 255.0f, 
-                    1.0f
-                    );
+                24.0f / 255.0f, 
+                60.0f / 255.0f,
+                92.0f / 255.0f, 
+                1.0f
+            );
 
             m_game_state.player->reset_lives();
 

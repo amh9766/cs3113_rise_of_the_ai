@@ -30,6 +30,7 @@ class LevelC : public LevelScene
                 BOTH,
                 texture_id,
                 glm::vec3(3.f * TILE_SIZE, 27.f * TILE_SIZE, 0.f),
+                glm::vec3(0.f * TILE_SIZE, 40.f * TILE_SIZE, 0.f),
                 {
                     -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
                     -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
@@ -176,11 +177,10 @@ class LevelC : public LevelScene
             );
 
             m_game_state.enemy = new EnemyEntity(
-                glm::vec3(-4.f * TILE_SIZE, 10.f * TILE_SIZE, 0.f),
                 10.f,
                 10.f,
                 load_texture(ENEMY_C_FILEPATH),
-                CHASE
+                STEP_CHASE
             );
         }
         

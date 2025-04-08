@@ -15,13 +15,13 @@
 #include "PlayerEntity.h"
 #include "platformer_lib.h"
 
-EnemyEntity::EnemyEntity(glm::vec3 spawn_point, float width, float height, GLuint tex_id, AIType ai_type)
-    : Entity(spawn_point, width, height, tex_id), m_accumulated_time(0.f)
+EnemyEntity::EnemyEntity(float width, float height, GLuint tex_id, AIType ai_type)
+    : Entity(ZERO_VEC3, width, height, tex_id), m_accumulated_time(0.f)
 {
     m_ai_type = ai_type;
     m_ai_state = WAITING;
     m_collision = new CollisionBox(
-        spawn_point,
+        ZERO_VEC3,
         width,
         height
     );
@@ -29,33 +29,63 @@ EnemyEntity::EnemyEntity(glm::vec3 spawn_point, float width, float height, GLuin
 
 void EnemyEntity::update(float delta_time, PlayerEntity* player)
 { 
-    m_accumulated_time += delta_time;
-    glm::vec3 player_position = player->get_position();
-    float player_movement = player->get_movement();
-    float to_player = glm::distance(m_position, player_position);
+    glm::vec3 player_position = player->get_position() + PLAYER_COLLISION_OFFSET;
+    glm::vec3 from_enemy_to_player = player_position - m_position;
 
-    switch (m_ai_state) {
+    m_accumulated_time += delta_time;
+    bool facing_right = player->is_horizontally_flipped();
+    float distance_between = glm::length(from_enemy_to_player);
+    glm::vec3 normalized_direction = from_enemy_to_player / distance_between;
+
+    bool player_facing_enemy = (facing_right && m_position.x >= player_position.x)
+                               || (!facing_right && m_position.x <= player_position.x);
+
+    switch (m_ai_state) 
+    {
         case WAITING:
-            if (m_ai_type == CLOSE_CHASE && to_player < 2.f * TILE_SIZE) m_ai_state = ATTACKING;
-            else if (m_ai_type == SCARED_CHASE)
+            m_velocity = ZERO_VEC3;
+            switch (m_ai_type)
             {
-                if (
-                    !(player_movement < 0.f && m_position.x < player_position.x)
-                    && (player_movement > 0.f && m_position.x > player_position.x)
-                ) m_ai_state = ATTACKING;
+                case STEP_CHASE:
+                    if (m_accumulated_time > 60.f * FIXED_TIMESTEP) m_ai_state = ATTACKING;
+                    break;
+                case CLOSE_CHASE:
+                    if (distance_between < 7.f * TILE_SIZE) m_ai_state = ATTACKING;
+                    break;
+                case SCARED_CHASE:
+                    if (!player_facing_enemy) m_ai_state = ATTACKING;
+                    break;
             }
-            else m_ai_state = ATTACKING;
             break;
         case ATTACKING:
-            m_velocity = glm::normalize(player->get_position() - m_position); 
-            if (m_ai_type == CHASE) m_velocity *= (1 + m_accumulated_time / 5.f);
-            m_velocity *= ENEMY_SPEED;
+            m_velocity = normalized_direction; 
+            switch (m_ai_type)
+            {
+                case STEP_CHASE:
+                    if (m_accumulated_time < 80.f * FIXED_TIMESTEP) m_velocity *= 10.f;
+                    else 
+                    {
+                        m_accumulated_time = 0.f;
+                        m_ai_state = WAITING;
+                    }
+                    break;
+                case SCARED_CHASE:
+                    if (player_facing_enemy) m_ai_state = WAITING; 
+                    break;
+                case CLOSE_CHASE:
+                    if (distance_between > 7.f * TILE_SIZE) m_ai_state = WAITING;
+                    break;
+            }
+            m_velocity *= (1 + m_accumulated_time / 2.f) * ENEMY_SPEED;
             break;
         default:
             break;
     }
 
     Entity::update(delta_time);
+
+    m_collision->reset_collision();
+    m_collision->update_position(m_velocity * delta_time);
 
     // Update model matrix at the very end
     update_model_mat();

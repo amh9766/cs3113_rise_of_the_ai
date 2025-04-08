@@ -6,9 +6,12 @@
 #include "glm/glm.hpp"
 #include "ShaderProgram.h"
 #include "AnimatedEntity.h"
+#include "EnemyEntity.h"
 #include "Map.h"
 #include "platformer_lib.h"
 #include "helper.h"
+
+class EnemyEntity;
 
 enum PlayerAnim : int
 {
@@ -47,7 +50,7 @@ class PlayerEntity : public AnimatedEntity
         PlayerEntity(GLuint tex_id, std::vector<AnimationInfo> anim_frames, int max_frames);
         ~PlayerEntity();
 
-        void update(float delta_time, Map* map);
+        void update(float delta_time, Map* map, EnemyEntity* enemy);
 
         // ————— GAMEPLAY ————— //
         void jump();

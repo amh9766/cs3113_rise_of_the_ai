@@ -30,6 +30,7 @@ class LevelB : public LevelScene
                 VERTICAL,
                 texture_id,
                 glm::vec3(2.f * TILE_SIZE, 13.f * TILE_SIZE, 0.f),
+                glm::vec3(13.f * TILE_SIZE, 10.f * TILE_SIZE, 0.f),
                 {
                     18,37,19,34,35,36,19,37,37,19,34,35,36,19,37,20,
                     18,44,44,44,44,44,44,44,44,44,44,44,44,44,44,20,
@@ -128,7 +129,6 @@ class LevelB : public LevelScene
             );
 
             m_game_state.enemy = new EnemyEntity(
-                glm::vec3(13.f * TILE_SIZE, 10.f * TILE_SIZE, 0.f),
                 10.f,
                 10.f,
                 load_texture(ENEMY_B_FILEPATH),

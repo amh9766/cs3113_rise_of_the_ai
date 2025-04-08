@@ -22,6 +22,8 @@ class AnimatedEntity : public Entity
         bool m_flip_horizontal;
 
     public:
+        bool is_horizontally_flipped() const { return m_flip_horizontal; }
+
         // ————— GENERAL ————— //
         AnimatedEntity(glm::vec3 init_pos, glm::vec3 init_scale, 
             float m_width, float m_height, 

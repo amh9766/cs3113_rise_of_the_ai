@@ -22,10 +22,11 @@
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
-#include "AnimatedEntity.h"
-#include "PlayerEntity.h"
 #include "CollisionBox.h"
 #include "Map.h"
+#include "AnimatedEntity.h"
+#include "PlayerEntity.h"
+#include "EnemyEntity.h"
 #include "platformer_lib.h"
 #include "helper.h"
 
@@ -66,7 +67,7 @@ void PlayerEntity::fall()
     if (m_velocity.y < -JUMP_SPEED_THRESHOLD) m_velocity.y = -60.f;
 }
 
-void PlayerEntity::update(float delta_time, Map* map)
+void PlayerEntity::update(float delta_time, Map* map, EnemyEntity* enemy)
 { 
     // ————— PHYSICS ————— //
     if (m_movement == 0.f) m_velocity.x = 0.f;
@@ -84,8 +85,20 @@ void PlayerEntity::update(float delta_time, Map* map)
 
     // ————— COLLISIONS ————— //
     m_collision->update_position(m_velocity * delta_time);
-    m_collision->reset_collision();
+
+    CollisionBox* enemy_collision = enemy->get_collision();
+    enemy_collision->collide_with(m_collision);
+
+    // Check out of bounds or if an enemy was touched
+    if (m_position.y > (map->get_height() + 3) * TILE_SIZE
+        || enemy_collision->did_collide()) 
+    {
+        Mix_PlayChannel(-1, m_death_sfx, 0);
+        respawn(map->get_player_spawn_point());
+        enemy->spawn(map->get_enemy_spawn_point());
+    }
    
+    m_collision->reset_collision();
     const std::vector<CollisionBox*> map_collisions = map->get_collisions();
     for (int i = 0; i < map_collisions.size(); i++)
     {
@@ -99,13 +112,6 @@ void PlayerEntity::update(float delta_time, Map* map)
     {
         if (m_velocity.y > FALL_SPEED) Mix_PlayChannel(-1, m_land_sfx, 0);
         m_velocity.y = 0.f;
-    }
-
-    // Check out of bounds
-    if (m_position.y > (map->get_height() + 3) * TILE_SIZE) 
-    {
-        Mix_PlayChannel(-1, m_death_sfx, 0);
-        respawn(map->get_spawn_point());
     }
 
     // Update animation based on movement 
