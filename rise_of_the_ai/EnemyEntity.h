@@ -3,7 +3,7 @@
 
 #include "glm/glm.hpp"
 #include "CollisionBox.h"
-#include "Entity.h"
+#include "AnimatedEntity.h"
 #include "PlayerEntity.h"
 #include "platformer_lib.h"
 #include "helper.h"
@@ -17,26 +17,34 @@ enum AIType
     SCARED_CHASE
 };
 
-enum AIState
+enum AIState : int
 {
-    WAITING,
-    ATTACKING
+    WAITING   = 0,
+    ATTACKING = 1
 };
 
-class EnemyEntity : public Entity
+class EnemyEntity : public AnimatedEntity 
 {
     private:
+        // ————— COLLISIONS ————— //
+        CollisionBox* m_collision;
+
+        // ————— AI ————— //
         AIType m_ai_type;
         AIState m_ai_state;
-        CollisionBox* m_collision;
         float m_accumulated_time;
 
     public:
+        // ————— GETTERS ————— //
         CollisionBox* get_collision() const { return m_collision; }
 
+        // ————— GENERAL ————— //
         EnemyEntity(float width, float height, GLuint tex_id, AIType ai_type);
         ~EnemyEntity();
 
+        void update(float delta_time, PlayerEntity* player);
+
+        // ————— GAMEPLAY ————— //
         void spawn(glm::vec3 spawn_point)
         {
             m_position     = spawn_point;
@@ -48,7 +56,8 @@ class EnemyEntity : public Entity
             m_accumulated_time = 0.f;
         }
 
-        void update(float delta_time, PlayerEntity* player);
+        // ————— ANIMATION ————— //
+        void update_anim();
 };
 
 #endif

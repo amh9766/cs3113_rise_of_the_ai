@@ -177,8 +177,8 @@ class LevelC : public LevelScene
             );
 
             m_game_state.enemy = new EnemyEntity(
-                10.f,
-                10.f,
+                16.f,
+                16.f,
                 load_texture(ENEMY_C_FILEPATH),
                 STEP_CHASE
             );

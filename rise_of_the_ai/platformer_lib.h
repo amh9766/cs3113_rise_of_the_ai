@@ -50,8 +50,8 @@ constexpr float WALK_SPEED           = 6.f,
                 FALL_SPEED_CAP       = 7.f / FIXED_TIMESTEP;
 
 constexpr float ENEMY_SPEED         = 0.25f / FIXED_TIMESTEP,
-                ENEMY_WAIT_TIME     = 60.f / FIXED_TIMESTEP,
-                ENEMY_ATTACK_TIME   = 20.f / FIXED_TIMESTEP,
+                ENEMY_WAIT_TIME     = 60.f * FIXED_TIMESTEP,
+                ENEMY_ATTACK_TIME   = 20.f * FIXED_TIMESTEP,
                 ENEMY_PROXIMITY_MIN = 7.f * TILE_SIZE;
 
 constexpr int LIVES_AMOUNT = 3;

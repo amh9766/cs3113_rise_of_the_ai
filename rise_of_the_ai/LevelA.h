@@ -84,8 +84,8 @@ class LevelA : public LevelScene
             );
 
             m_game_state.enemy = new EnemyEntity(
-                10.f,
-                10.f,
+                28.f,
+                28.f,
                 load_texture(ENEMY_A_FILEPATH),
                 CLOSE_CHASE
             );

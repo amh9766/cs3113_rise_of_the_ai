@@ -29,6 +29,7 @@ LevelScene::LevelScene(int next_scene_index, PlayerEntity* player)
 LevelScene::~LevelScene()
 {
     delete m_game_state.map;
+    delete m_game_state.enemy;
     Mix_FreeMusic(m_game_state.bgm);
 }
 
@@ -132,9 +133,9 @@ void LevelScene::render(ShaderProgram* program)
     // ————— MAP ————— //
     m_game_state.map->render(program);
 
-    // ————— PLAYER ————— //
-    m_game_state.player->render(program);
-
     // ————— ENEMY ————— //
     m_game_state.enemy->render(program);
+
+    // ————— PLAYER ————— //
+    m_game_state.player->render(program);
 }
