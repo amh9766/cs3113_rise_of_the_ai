@@ -31,6 +31,8 @@
 #include "GameOverScreen.h"
 #include "EndingScreen.h"
 #include "LevelA.h"
+#include "LevelB.h"
+#include "LevelC.h"
 #include "platformer_lib.h"
 
 #include "helper.h"
@@ -145,7 +147,9 @@ void initialise()
     g_scenes.push_back(new StartScreen(3));
     g_scenes.push_back(new GameOverScreen(0));
     g_scenes.push_back(new EndingScreen(0));
-    g_scenes.push_back(new LevelA(2, g_player, tileset_texture_id));
+    g_scenes.push_back(new LevelA(4, g_player, tileset_texture_id));
+    g_scenes.push_back(new LevelB(5, g_player, tileset_texture_id));
+    g_scenes.push_back(new LevelC(2, g_player, tileset_texture_id));
 
     g_scene_index = 0;
     g_scenes[g_scene_index]->initialise();
@@ -183,6 +187,15 @@ void process_input()
                             break;
                         case SDLK_3:
                             switch_scene(2);
+                            break;
+                        case SDLK_4:
+                            switch_scene(3);
+                            break;
+                        case SDLK_5:
+                            switch_scene(4);
+                            break;
+                        case SDLK_6:
+                            switch_scene(5);
                             break;
                         default:
                             g_scenes[g_scene_index]->process_key_down(event);

@@ -31,6 +31,7 @@ ScreenScene::~ScreenScene()
 
 void ScreenScene::initialise()
 {
+    Mix_HaltMusic();
     // ————— RENDERING ————— //
     glClearColor(
         0.f, 

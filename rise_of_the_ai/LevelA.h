@@ -5,7 +5,6 @@
 #include <SDL_mixer.h>
 
 #include "LevelScene.h"
-#include "LevelA.h"
 #include "CollisionBox.h"
 #include "Map.h"
 #include "platformer_lib.h"
@@ -30,7 +29,7 @@ class LevelA : public LevelScene
                 14,
                 HORIZONTAL,
                 texture_id,
-                glm::vec3(128.f, 0.f, 0.f),
+                glm::vec3(8.f * TILE_SIZE, 9.f * TILE_SIZE, 0.f),
                 {
                     -1,-1,81,82,-1,-1,-1,4,5,5,5,5,6,-1,-1,-1,4,5,6,-1,-1,-1,-1,-1,-1,-1,-1,4,5,5,5,6,-1,-1,-1,
                     -1,96,97,98,-1,-1,-1,-1,-1,-1,-1,-1,4,5,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,

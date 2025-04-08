@@ -7,10 +7,11 @@
 #include "CollisionBox.h"
 #include "ShaderProgram.h"
 
-enum ScrollType : unsigned int
+enum ScrollType : int
 {
-    HORIZONTAL = 0b01,
-    VERTICAL   = 0b10
+    HORIZONTAL = 1,
+    VERTICAL   = 2,
+    BOTH       = 3
 };
 
 class Map 
