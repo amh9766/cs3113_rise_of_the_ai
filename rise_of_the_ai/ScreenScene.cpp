@@ -19,11 +19,13 @@
 ScreenScene::ScreenScene(int next_scene_index)
     : Scene(next_scene_index)
 {
+    m_press_sfx = Mix_LoadWAV(PRESS_FILEPATH);
 }
 
 ScreenScene::~ScreenScene()
 {
     delete m_game_state.background;
+    Mix_FreeChunk(m_press_sfx);
     //Mix_FreeMusic(m_game_state.bgm);
 }
 
@@ -44,6 +46,7 @@ void ScreenScene::process_key_down(SDL_Event& event)
 {
     switch (event.key.keysym.sym) {
         case SDLK_RETURN:
+            Mix_PlayChannel(-1, m_press_sfx, 0);
             m_game_state.scene_index = m_next_scene_index;
             break;
         default:

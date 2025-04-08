@@ -16,6 +16,9 @@ constexpr char  PLAYER_FILEPATH[]    = "content/player.png",
 
 constexpr char BGM_FILEPATH[] = "content/music/wood_man.mp3";
 
+constexpr char LAND_FILEPATH[] = "content/sfx/land.wav",
+               PRESS_FILEPATH[] = "content/sfx/press.wav";
+
 constexpr int TILE_SIZE = 16;
 
 constexpr int TILESET_WIDTH  = 16,

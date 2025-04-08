@@ -6,6 +6,9 @@
 
 class ScreenScene : public Scene
 {
+    private:
+        Mix_Chunk* m_press_sfx;
+
     public:
        ScreenScene(int next_scene_index);
        ~ScreenScene();

@@ -1,6 +1,8 @@
 #ifndef PLAYER_ENTITY_H
 #define PLAYER_ENTITY_H
 
+#include <SDL_mixer.h>
+
 #include "glm/glm.hpp"
 #include "ShaderProgram.h"
 #include "AnimatedEntity.h"
@@ -27,6 +29,9 @@ class PlayerEntity : public AnimatedEntity
 
         // ————— COLLISIONS ————— //
         CollisionBox* m_collision;
+
+        // ————— SOUND ————— //
+        Mix_Chunk* m_land_sfx;
 
         // ————— GAMEPLAY ————— //
         int m_lives;

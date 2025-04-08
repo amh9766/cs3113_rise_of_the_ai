@@ -17,6 +17,7 @@
 #define GL_GLEXT_PROTOTYPES 1
 #include <SDL.h>
 #include <SDL_opengl.h>
+#include <SDL_mixer.h>
 
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -38,6 +39,10 @@ PlayerEntity::PlayerEntity(GLuint tex_id,
       ),
       m_movement(0.f), m_lives(LIVES_AMOUNT) 
 {
+    // ————— SOUND ————— //
+    m_land_sfx = Mix_LoadWAV(LAND_FILEPATH);
+
+    // ————— GAMEPLAY ————— //
     m_collision = new CollisionBox(
         ZERO_VEC3 + PLAYER_COLLISION_OFFSET,
         PLAYER_COLLISION_WIDTH, 
@@ -88,10 +93,12 @@ void PlayerEntity::update(float delta_time, Map* map)
     }
 
     // Stop velocity if a collision ocurred with the map
-    if ((m_collision->get_collide_left() || m_collision->get_collide_right()) && m_velocity.x != 0.f)
-        m_velocity.x = 0.f;
-    else if ((m_collision->get_collide_top() || m_collision->get_collide_bottom()) && m_velocity.y != 0.f)
+    if (m_collision->get_collide_left() || m_collision->get_collide_right())      m_velocity.x = 0.f;
+    else if (m_collision->get_collide_top() || m_collision->get_collide_bottom()) 
+    {
+        if (m_velocity.y > FALL_SPEED) Mix_PlayChannel(-1, m_land_sfx, 0);
         m_velocity.y = 0.f;
+    }
 
     // Check out of bounds
     if (m_position.y > (map->get_height() + 1) * TILE_SIZE) respawn(map->get_spawn_point());
