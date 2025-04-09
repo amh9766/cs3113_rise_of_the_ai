@@ -11,6 +11,8 @@ class EndingScreen : public ScreenScene
         EndingScreen(int next_scene_index)
             : ScreenScene(next_scene_index)
         {
+            m_game_state.bgm = Mix_LoadMUS(ALL_STAGE_CLEAR_BGM_FILEPATH);
+
             m_game_state.background = new Background(
                 INTERNAL_HEIGHT,
                 INTERNAL_WIDTH,
@@ -21,6 +23,10 @@ class EndingScreen : public ScreenScene
         void initialise() override 
         { 
             m_game_state.scene_index = 2;
+
+            Mix_PlayMusic(m_game_state.bgm, 1);
+            Mix_VolumeMusic(MIX_MAX_VOLUME / 3);
+
             ScreenScene::initialise();
         }
 };

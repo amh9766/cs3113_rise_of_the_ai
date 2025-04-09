@@ -16,7 +16,7 @@ class LevelA : public LevelScene
         LevelA(int next_scene_index, PlayerEntity* player, GLuint texture_id)
             : LevelScene(next_scene_index, player)
         {
-            m_game_state.bgm = Mix_LoadMUS(BGM_FILEPATH);
+            m_game_state.bgm = Mix_LoadMUS(LEVEL_BGM_FILEPATH);
             
             // ————— MAP ————— //
             CollisionBox* win_collision = new CollisionBox(
@@ -90,6 +90,11 @@ class LevelA : public LevelScene
                 CLOSE_CHASE
             );
         }
+
+        ~LevelA()
+        {
+            Mix_FreeMusic(m_game_state.bgm);
+        }
         
         void initialise() override
         {
@@ -97,7 +102,7 @@ class LevelA : public LevelScene
             m_game_state.scene_index = 3;
 
             Mix_PlayMusic(m_game_state.bgm, -1);
-            Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+            Mix_VolumeMusic(MIX_MAX_VOLUME / 3);
 
             // ————— RENDERING ————— //
             glClearColor(

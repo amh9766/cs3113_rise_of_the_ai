@@ -11,6 +11,8 @@ class GameOverScreen : public ScreenScene
         GameOverScreen(int next_scene_index)
             : ScreenScene(next_scene_index)
         {
+            m_game_state.bgm = Mix_LoadMUS(GAME_OVER_BGM_FILEPATH);
+
             m_game_state.background = new Background(
                 INTERNAL_HEIGHT,
                 INTERNAL_WIDTH,
@@ -21,6 +23,11 @@ class GameOverScreen : public ScreenScene
         void initialise() override 
         { 
             m_game_state.scene_index = 1;
+
+            Mix_HaltChannel(-1);
+            Mix_PlayMusic(m_game_state.bgm, 1);
+            Mix_VolumeMusic(MIX_MAX_VOLUME / 3);
+
             ScreenScene::initialise();
         }
 };

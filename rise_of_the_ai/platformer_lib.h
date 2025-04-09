@@ -6,8 +6,11 @@
 // Sources: 
 //  Sprites
 //  - https://www.spriters-resource.com/nes/mm2/
+//  - https://www.spriters-resource.com/nes/supermariobros3/sheet/25685/
 //  SFX
 //  - https://www.sounds-resource.com/nes/megaman2/sound/3616/
+//  Music
+//  - https://downloads.khinsider.com/game-soundtracks/album/megaman-2-original-soundtrack
 constexpr char  PLAYER_FILEPATH[]    = "content/textures/player.png",
                 ENEMY_A_FILEPATH[]   = "content/textures/enemy_a.png",
                 ENEMY_B_FILEPATH[]   = "content/textures/enemy_b.png",
@@ -17,7 +20,10 @@ constexpr char  PLAYER_FILEPATH[]    = "content/textures/player.png",
                 ENDING_FILEPATH[]    = "content/textures/ending.png",
                 TILESET_FILEPATH[]   = "content/textures/tileset.png";
 
-constexpr char BGM_FILEPATH[] = "content/music/wood_man.mp3";
+constexpr char LEVEL_BGM_FILEPATH[]           = "content/music/level.mp3",
+               GAME_OVER_BGM_FILEPATH[]       = "content/music/game_over.mp3",
+               ALL_STAGE_CLEAR_BGM_FILEPATH[] = "content/music/all_stage_clear.mp3",
+               MAIN_MENU_BGM_FILEPATH[]       = "content/music/main_menu.mp3";
 
 constexpr char LAND_FILEPATH[]  = "content/sfx/land.wav",
                PRESS_FILEPATH[] = "content/sfx/press.wav",

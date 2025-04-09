@@ -94,6 +94,7 @@ void PlayerEntity::update(float delta_time, Map* map, EnemyEntity* enemy)
         || enemy_collision->did_collide()) 
     {
         Mix_PlayChannel(-1, m_death_sfx, 0);
+        Mix_VolumeChunk(m_death_sfx, MIX_MAX_VOLUME / 4);
         respawn(map->get_player_spawn_point());
         enemy->spawn(map->get_enemy_spawn_point());
     }
@@ -110,7 +111,11 @@ void PlayerEntity::update(float delta_time, Map* map, EnemyEntity* enemy)
     if (m_collision->get_collide_left() || m_collision->get_collide_right())      m_velocity.x = 0.f;
     else if (m_collision->get_collide_top() || m_collision->get_collide_bottom()) 
     {
-        if (m_velocity.y > FALL_SPEED) Mix_PlayChannel(-1, m_land_sfx, 0);
+        if (m_velocity.y > FALL_SPEED) 
+        {
+            Mix_PlayChannel(-1, m_land_sfx, 0);
+            Mix_VolumeChunk(m_land_sfx, MIX_MAX_VOLUME / 4);
+        }
         m_velocity.y = 0.f;
     }
 

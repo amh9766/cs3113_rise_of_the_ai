@@ -30,7 +30,6 @@ LevelScene::~LevelScene()
 {
     delete m_game_state.map;
     delete m_game_state.enemy;
-    Mix_FreeMusic(m_game_state.bgm);
 }
 
 void LevelScene::initialise()

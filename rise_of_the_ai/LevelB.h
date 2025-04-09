@@ -16,8 +16,6 @@ class LevelB : public LevelScene
         LevelB(int next_scene_index, PlayerEntity* player, GLuint texture_id)
             : LevelScene(next_scene_index, player)
         {
-            m_game_state.bgm = Mix_LoadMUS(BGM_FILEPATH);
-
             // ————— MAP ————— //
             CollisionBox* win_collision = new CollisionBox(
                 glm::vec3(3.f * TILE_SIZE, 5.f * TILE_SIZE, 0.f),
