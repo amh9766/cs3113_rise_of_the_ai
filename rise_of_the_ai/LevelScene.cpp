@@ -21,15 +21,18 @@
 #include "helper.h"
 
 LevelScene::LevelScene(int next_scene_index, PlayerEntity* player)
-    : Scene(next_scene_index)
+    : Scene(next_scene_index), m_pause(false)
 {
     m_game_state.player = player;
+
+    m_pause_sfx = Mix_LoadWAV(PAUSE_FILEPATH);
 }
 
 LevelScene::~LevelScene()
 {
     delete m_game_state.map;
     delete m_game_state.enemy;
+    Mix_FreeChunk(m_pause_sfx);
 }
 
 void LevelScene::initialise()
@@ -44,6 +47,11 @@ void LevelScene::initialise()
 void LevelScene::process_key_down(SDL_Event& event)
 {
     switch (event.key.keysym.sym) {
+        case SDLK_RETURN:
+            m_pause = !m_pause;
+            Mix_PlayChannel(-1, m_pause_sfx, 0);
+            Mix_VolumeChunk(m_pause_sfx, MIX_MAX_VOLUME / 4);
+            break;
         case SDLK_c:
             m_game_state.player->jump();
             break;
@@ -74,6 +82,8 @@ void LevelScene::process_key_state(const Uint8* key_state)
 
 void LevelScene::update(float delta_time)
 {
+    if (m_pause) return;
+
     if (m_game_state.player->get_lives() <= 0) 
     {
         m_game_state.scene_index = 1;

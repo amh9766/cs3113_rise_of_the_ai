@@ -55,6 +55,8 @@ PlayerEntity::PlayerEntity(GLuint tex_id,
 PlayerEntity::~PlayerEntity()
 {
     delete m_collision;
+    Mix_FreeChunk(m_land_sfx);
+    Mix_FreeChunk(m_death_sfx);
 }
 
 void PlayerEntity::jump()

@@ -27,7 +27,8 @@ constexpr char LEVEL_BGM_FILEPATH[]           = "content/music/level.mp3",
 
 constexpr char LAND_FILEPATH[]  = "content/sfx/land.wav",
                PRESS_FILEPATH[] = "content/sfx/press.wav",
-               DEATH_FILEPATH[] = "content/sfx/death.wav";
+               DEATH_FILEPATH[] = "content/sfx/death.wav",
+               PAUSE_FILEPATH[] = "content/sfx/pause.wav";
 
 constexpr int TILE_SIZE      = 16,
               TILESET_WIDTH  = 16,

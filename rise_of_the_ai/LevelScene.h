@@ -8,6 +8,11 @@
 
 class LevelScene : public Scene
 {
+    private:
+        bool m_pause;
+
+        Mix_Chunk* m_pause_sfx;
+
     public:
         LevelScene(int next_scene_index, PlayerEntity* player);
         ~LevelScene();
